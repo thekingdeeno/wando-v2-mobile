@@ -1,8 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
+console.log(process.env.EXPO_PUBLIC_APP_BASE_URL);
+
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig | any => {
     try {
-      const token = sessionStorage.getItem('accessToken');
+      // const token = sessionStorage.getItem('accessToken');
+      const token = '1234';
   
       if (token != null) {
         if (!config) {
@@ -29,7 +32,7 @@ class Http {
   
     initHttp() {
       const http = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
+        baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL,
         // headers,
         // timeout: 60000,
         // withCredentials: false,

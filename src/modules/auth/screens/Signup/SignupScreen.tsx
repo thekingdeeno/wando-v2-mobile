@@ -7,9 +7,9 @@ import colorPallete from "../../../../shared/constants/colors";
 
 
 const SignupScreen = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
 
-    const {signupForm} = useAuth();
+    const {signupForm, handleSignupForm, signup} = useAuth();
 
     return(
         <SafeAreaProvider>
@@ -21,14 +21,20 @@ const SignupScreen = () => {
                         </Text>
                     </View>
                     <View style={style.formContainer}>
-                        <TextInput value={signupForm?.firstName} placeholder="First Name" style={style.formInput} />
-                        <TextInput value={signupForm?.lastName} placeholder="Last Name" style={style.formInput} />
-                        <TextInput value={signupForm?.email} placeholder="Email" style={style.formInput} />
-                        <TextInput value={signupForm?.phoneNumber} placeholder="Phone Number" style={style.formInput} />
-                        <TextInput value={signupForm?.password} placeholder="Password" style={style.formInput} />
+                        <TextInput value={signupForm?.firstName} placeholder="First Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'firstName')} />
+                        <TextInput value={signupForm?.lastName} placeholder="Last Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'lastName')}/>
+                        <TextInput value={signupForm?.email} placeholder="Email" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'email')}/>
+                        <TextInput value={signupForm?.phoneNumber} placeholder="Phone Number" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'phoneNumber')}/>
+                        {/* <TextInput value={signupForm?.username} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/> */}
+                        <TextInput value={signupForm?.password} placeholder="Password" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'password')}/>
                     </View>
-                    <Pressable style={style.submitBtn}>
-                            <Text style={{color: 'white', textAlign: 'center'}}>
+                    <Pressable style={style.submitBtn} 
+                        onPress={()=>{
+                            // signup()
+                            navigation.navigate('Auth', {screen: 'EmailOTP'})
+                        }
+                    }>
+                            <Text style={{color: 'white', textAlign: 'center'}} >
                                 Sign Up
                             </Text>
                     </Pressable>

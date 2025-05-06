@@ -12,11 +12,11 @@ const WelcomeScreen = ()=>{
     const navigation = useNavigation<any>()
 
     const LoginScreen = () => {
-        navigation.navigate('Auth' as never)
+        navigation.navigate('Auth')
     }
 
     const SignupScreen = () => {
-        navigation.navigate('Auth' as never, {screen: 'Signup'})
+        navigation.navigate('Auth', {screen: 'Signup'})
     }
 
 
