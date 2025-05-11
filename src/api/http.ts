@@ -4,7 +4,6 @@ console.log(process.env.EXPO_PUBLIC_APP_BASE_URL);
 
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig | any => {
     try {
-      // const token = sessionStorage.getItem('accessToken');
       const token = '1234';
   
       if (token != null) {
@@ -33,9 +32,6 @@ class Http {
     initHttp() {
       const http = axios.create({
         baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL,
-        // headers,
-        // timeout: 60000,
-        // withCredentials: false,
       });
   
       http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
@@ -45,12 +41,12 @@ class Http {
         (error) => {
           const { response } = error;
           if (response.data.message && response.status !== 401) {
-            // Alert.error(response.data.message);
+            console.log(response.data.message);
           } else {
             response.status !== 401 &&
             console.log('handle error');
             
-            //   Alert.error('Something went wrong. Please check your connection and try again or contact support...');
+            console.log('Something went wrong. Please check your connection and try again or contact support...');
           }
   
           return this.handleError(response);
@@ -85,34 +81,10 @@ class Http {
       return this.http.delete<T, R>(url, config);
     }
   
-    // We can handle generic app errors depending on the status code
     private handleError(error: { status: any }) {
-      const { status } = error;
-  
-    //   switch (status) {
-    //     case StatusCode.InternalServerError: {
-    //       // Handle InternalServerError
-    //       break;
-    //     }
-    //     case StatusCode.Forbidden: {
-    //       // Handle Forbidden
-    //       break;
-    //     }
-    //     case StatusCode.Unauthorized: {
-    //       Alert.error('Unauthurized access, login and try again');
-    //       localStorage.clear();
-    //       sessionStorage.clear();
-    //       setTimeout(() => {
-    //         window.location.href = '/login';
-    //       }, 1200);
-    //       break;
-    //     }
-    //     case StatusCode.TooManyRequests: {
-    //       // Handle TooManyRequests
-    //       break;
-    //     }
-    //   }
-  
+      // const { status } = error;
+      console.log(error);
+      // function to handle error here
       return Promise.reject(error);
     }
   }
