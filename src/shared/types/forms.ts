@@ -4,7 +4,7 @@ export type SignupForm = {
     email: string,
     phoneNumber: string,
     password: string,
-    // username: string,
+    username: string,
 }
 
 export type LoginForm = {

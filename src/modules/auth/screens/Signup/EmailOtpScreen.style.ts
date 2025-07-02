@@ -31,7 +31,12 @@ const style = StyleSheet.create({
         textAlign: 'center'
         // padding:10
     },
-
+    resendOtpContainer:{
+        backgroundColor: 'white'
+    },
+    resendOtpButton:{
+        color: 'red'
+    },
     numpad:{
         // backgroundColor: 'blue',
         width: '100%',

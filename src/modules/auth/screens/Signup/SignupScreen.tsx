@@ -25,19 +25,21 @@ const SignupScreen = () => {
                         <TextInput value={signupForm?.lastName} placeholder="Last Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'lastName')}/>
                         <TextInput value={signupForm?.email} placeholder="Email" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'email')}/>
                         <TextInput value={signupForm?.phoneNumber} placeholder="Phone Number" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'phoneNumber')}/>
-                        {/* <TextInput value={signupForm?.username} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/> */}
+                        <TextInput value={signupForm?.username} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/>
                         <TextInput value={signupForm?.password} placeholder="Password" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'password')}/>
                     </View>
-                    <Pressable style={style.submitBtn} 
+                    <Pressable style={style.submitBtn}
                         onPress={()=>{
-                            // signup()
-                            navigation.navigate('Auth', {screen: 'EmailOTP'})
+                            signup()
                         }
                     }>
                             <Text style={{color: 'white', textAlign: 'center'}} >
                                 Sign Up
                             </Text>
                     </Pressable>
+                    <Text style={{...style.linkBtn}} onPress={()=>{
+                        navigation.replace('Auth', {screen: 'Login'})
+                    }}>{'I have an account'}</Text>
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>
@@ -79,6 +81,14 @@ const style = StyleSheet.create({
         padding: 20,
         marginTop: 20,
         borderRadius: 10
+    },
+
+    linkBtn: {
+        color: 'white',
+        textAlign: 'center',
+        marginTop: 30,
+        marginLeft: 70,
+        marginRight: 70,
     }
 })
 

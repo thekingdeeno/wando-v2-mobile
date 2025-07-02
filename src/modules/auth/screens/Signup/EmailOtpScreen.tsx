@@ -1,23 +1,29 @@
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable } from "react-native"
+import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable, Alert } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import colorPallete from "../../../../shared/constants/colors";
 import style from "./EmailOtpScreen.style";
 import { useState } from "react";
+import useAuth from "../../../../hooks/useAuth";
 
 
-const EmailOtpScreen = ()=>{
+const EmailOtpScreen = ({route}: any)=>{
 
-    const [otpValue, setOtpValue] = useState('')
-
+    
+    
+    const [otpValue, setOtpValue] = useState('');
+    
+    const {verifyEmailOtp} = useAuth()
+    
     function updateOtpForm(number: string){
         if(otpValue.length === 6){
             return;
         }
         const newOtpValue = `${otpValue}${number}`
         setOtpValue(newOtpValue);
+        
         if (newOtpValue.length === 6) {
-            // function to verify and redirect
-            console.log(otpValue, 'verifying...');
+            const {email, password} = route.params
+            verifyEmailOtp(email, password, newOtpValue)
         }
     }
 
@@ -50,6 +56,9 @@ const EmailOtpScreen = ()=>{
                         <View style={style.otpDigitBody}>
                             <Text style={style.otpDigit}>{otpValue[5]}</Text>
                         </View>
+                    </View>
+                    <View style={style.resendOtpContainer}>
+                        <Text style={style.resendOtpButton}>{'txt'}</Text>
                     </View>
                     <View style={style.numpad}>
                         <View style={style.numpadRow}>
@@ -107,6 +116,16 @@ const EmailOtpScreen = ()=>{
                             <Pressable style={style.numpadNum} onPress={()=>updateOtpForm('0')}>
                                 <Text style={style.numpadNumText}>
                                     {0}
+                                </Text>
+                            </Pressable>
+                            <Pressable style={style.numpadNum} onPress={()=>updateOtpForm('0')}>
+                                <Text style={style.numpadNumText}>
+                                    {0}
+                                </Text>
+                            </Pressable>
+                            <Pressable style={style.numpadNum} onPress={()=>setOtpValue(otpValue.slice(0, -1))}>
+                                <Text style={style.numpadNumText}>
+                                    {'<'}
                                 </Text>
                             </Pressable>
                         </View>

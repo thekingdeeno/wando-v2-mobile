@@ -1,7 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-console.log(process.env.EXPO_PUBLIC_APP_BASE_URL);
-
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig | any => {
     try {
       const token = '1234';
