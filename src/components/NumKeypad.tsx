@@ -1,5 +1,5 @@
 import { View, Pressable, StyleSheet, Text } from "react-native"
-import colorPallete from "../shared/constants/colors"
+import {colorPallete} from "../shared/constants/colors"
 
 const NumKeypad = ()=>{
 
@@ -75,7 +75,7 @@ const style = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         textAlign: 'center',
-        fontWeight: 900
+        fontWeight: 900,
     },
     otpInput:{
         display:"flex",

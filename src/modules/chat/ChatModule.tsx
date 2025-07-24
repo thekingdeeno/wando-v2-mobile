@@ -6,8 +6,7 @@ import styles from "./ChatModule.style";
 
 const ChatModule = ()=>{
 
-    const navigation = useNavigation<any>()
-
+    // const navigation = useNavigation<any>()
     return(
         <SafeAreaProvider>
             <SafeAreaView style={{backgroundColor: 'black'}}>

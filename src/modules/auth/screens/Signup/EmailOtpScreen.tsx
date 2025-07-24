@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable, Alert } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import colorPallete from "../../../../shared/constants/colors";
+import {colorPallete} from "../../../../shared/constants/colors";
 import style from "./EmailOtpScreen.style";
 import { useState } from "react";
 import useAuth from "../../../../hooks/useAuth";

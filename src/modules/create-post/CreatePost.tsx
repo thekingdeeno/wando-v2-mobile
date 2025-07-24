@@ -3,7 +3,7 @@ import {Text, StyleSheet, Image, Pressable} from 'react-native';
 import styles from "../home/HomeScreen.style";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import colorPallete from "../../shared/constants/colors";
+import {colorPallete} from "../../shared/constants/colors";
 import BottomNav from "../../components/BottomNav";
 
 const CreatePost = ()=>{

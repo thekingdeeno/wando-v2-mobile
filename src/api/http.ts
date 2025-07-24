@@ -1,8 +1,9 @@
+import { localstorage } from "../shared/utils/localstorage";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig | any => {
+const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
     try {
-      const token = '1234';
+      const token = localstorage.getString('accessToken');
   
       if (token != null) {
         if (!config) {

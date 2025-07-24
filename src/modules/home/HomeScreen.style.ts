@@ -1,23 +1,24 @@
 import { StyleSheet } from "react-native"
+import { colorScheme } from "../../shared/constants/colors"
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: '#551C63',
         height: '100%',
     },
     screenHeader: {
-        backgroundColor: '#40164B',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomWidth: 0.5,
+        borderBottomColor: colorScheme.grey,
     },
     screenBody:{
-
+        height: '100%',
     },
     logoText: {
         padding: 20,
         fontSize: 20,
-        color: 'white'
+        color: colorScheme.textColor,
     },
     introContainer: {
         paddingTop: 60,

@@ -2,7 +2,7 @@ import {Text, StyleSheet, View, Image, Pressable, TextInput, Button} from 'react
 import { useNavigation } from "@react-navigation/native";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import useAuth from "../../../../hooks/useAuth";
-import colorPallete from '../../../../shared/constants/colors';
+import {colorPallete} from '../../../../shared/constants/colors';
 
 const LoginScreen = () => {
     const navigation = useNavigation<any>();
