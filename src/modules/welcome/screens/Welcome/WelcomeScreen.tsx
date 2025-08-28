@@ -21,8 +21,7 @@ const WelcomeScreen = ()=>{
 
 
     return(
-        <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: 'black'}}>
+            <SafeAreaProvider style={{backgroundColor:''}}>
                 <View style={styles.screen}>
                     <View style={styles.screenHeader}>
                         <Text style={styles.logoText}>Wando</Text>
@@ -62,8 +61,7 @@ const WelcomeScreen = ()=>{
                         </Pressable>
                     </View>
                 </View>
-            </SafeAreaView>
-        </SafeAreaProvider>
+            </SafeAreaProvider>
     )
 };
 

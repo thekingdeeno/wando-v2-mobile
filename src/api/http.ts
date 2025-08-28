@@ -82,7 +82,7 @@ class Http {
   
     private handleError(error: { status: any }) {
       // const { status } = error;
-      console.log(error);
+      // console.log(error);
       // function to handle error here
       return Promise.reject(error);
     }

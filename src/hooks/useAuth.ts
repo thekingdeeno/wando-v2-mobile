@@ -45,20 +45,20 @@ const useAuth = () => {
             }
             
             const response: any = await httpClient.post(url, payload)
-            console.log(response.data.data.accessToken);
+            console.log(response.data);
             localstorage.set('accessToken', response.data.data.accessToken)
             localstorage.set('currentUser', JSON.stringify({
                 email: response.data.data.email,
                 userId: response.data.data.userId
-            }))
+            }));
             if (response.data.status) {
                 Alert.alert(response.data.message)
                 navigation.popToTop();
                 navigation.replace('Home', {screen: 'HomeScreen'});
             }
         } catch (error: any) {
-                Alert.alert(error.message)
-                console.log(error.message);
+                // Alert.alert(error.message)
+                // console.log(error.message);
                 
         } finally {
             setLoader(false)
@@ -110,7 +110,7 @@ const useAuth = () => {
         verifyEmailOtp,
         signup,
         login,
-        loader
+        loader,
     };
 };
 

@@ -10,6 +10,7 @@ import CreatePost from "../create-post/CreatePost";
 import PostFeed from "./screens/PostFeed";
 import ProfilePage from "./screens/ProfilePage";
 import DiscoveryPage from "./screens/DiscoveryPage";
+import useUser from "../../hooks/useUser";
 
 const HomeScreen = ()=>{
 
@@ -24,9 +25,28 @@ const HomeScreen = ()=>{
         else 
         setRenderedScreens([...renderedScreens, screen])
     };
+
+    const {fetchUser, delCurrentUser} = useUser();
     
     useEffect(()=>{
-        // console.log(currentTheme);
+        fetchUser().then((data)=>{
+        console.log(data);
+        
+        if (!data) {
+            delCurrentUser();
+        };
+        console.log(data);
+        
+        data.avatar && Image.prefetch(data.avatar)
+      .then(success => {
+        if (success) {
+          console.log('Image prefetched successfully!');
+        } else {
+          console.log('Image prefetch failed.');
+        }
+      })
+      .catch(error => console.error('Error prefetching image:', error));
+    })
         
     },[])
 

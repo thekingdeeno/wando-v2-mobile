@@ -3,7 +3,7 @@ import {Text, StyleSheet, Image, Pressable} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../../../hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {colorPallete} from "../../../../shared/constants/colors";
+import {colorPallete, colorScheme} from "../../../../shared/constants/colors";
 
 
 const SignupScreen = () => {
@@ -12,8 +12,7 @@ const SignupScreen = () => {
     const {signupForm, handleSignupForm, signup} = useAuth();
 
     return(
-        <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: colorPallete.basePurple,}}>
+            <SafeAreaView style={{backgroundColor: colorScheme.baseBgColor,}}>
                 <View style={style.screen}>
                     <View>
                         <Text style={style.header}>
@@ -23,17 +22,17 @@ const SignupScreen = () => {
                     <View style={style.formContainer}>
                         <TextInput value={signupForm?.firstName} placeholder="First Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'firstName')} />
                         <TextInput value={signupForm?.lastName} placeholder="Last Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'lastName')}/>
-                        <TextInput value={signupForm?.email} placeholder="Email" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'email')}/>
+                        <TextInput value={signupForm?.email.toLowerCase()} placeholder="Email" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'email')}/>
                         <TextInput value={signupForm?.phoneNumber} placeholder="Phone Number" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'phoneNumber')}/>
-                        <TextInput value={signupForm?.username} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/>
-                        <TextInput value={signupForm?.password} placeholder="Password" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'password')}/>
+                        <TextInput value={signupForm?.username.toLowerCase()} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/>
+                        <TextInput value={signupForm?.password} placeholder="Password" secureTextEntry style={style.formInput} onChange={(e)=>handleSignupForm(e, 'password')}/>
                     </View>
                     <Pressable style={style.submitBtn}
                         onPress={()=>{
                             signup()
                         }
                     }>
-                            <Text style={{color: 'white', textAlign: 'center'}} >
+                            <Text style={{color: colorScheme.baseBgColor, textAlign: 'center'}} >
                                 Sign Up
                             </Text>
                     </Pressable>
@@ -42,7 +41,6 @@ const SignupScreen = () => {
                     }}>{'I have an account'}</Text>
                 </View>
             </SafeAreaView>
-        </SafeAreaProvider>
     );
 };
 
@@ -52,7 +50,7 @@ const style = StyleSheet.create({
         height: '100%'
     },
     header: {
-        color: 'white', textAlign: 'center', fontSize: 40, paddingBottom: 20
+        color: colorScheme.textColor, textAlign: 'center', fontSize: 40, paddingBottom: 20
     },
     formContainer: {
         backgroundColor: colorPallete.cardPurple,
@@ -68,8 +66,9 @@ const style = StyleSheet.create({
         shadowRadius: 10,
     },
     formInput: {
-        backgroundColor: 'white',
-        opacity: 0.5,
+        backgroundColor: colorScheme.baseBgColor,
+        color: colorScheme.textColor,
+        opacity: 0.7,
         marginTop: 10,
         // marginLeft: 10,
         // marginRight: 10,
@@ -77,14 +76,14 @@ const style = StyleSheet.create({
         borderRadius: 5
     },
     submitBtn: {
-        backgroundColor: 'black',
+        backgroundColor: colorScheme.baseFgColor,
         padding: 20,
         marginTop: 20,
         borderRadius: 10
     },
 
     linkBtn: {
-        color: 'white',
+        color: colorScheme.baseFgColor,
         textAlign: 'center',
         marginTop: 30,
         marginLeft: 70,

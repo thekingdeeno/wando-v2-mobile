@@ -4,13 +4,17 @@ import WelcomeNavigation from "./welcome";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeNavigation from "./home";
 import { localstorage } from "../shared/utils/localstorage";
-import { Appearance } from "react-native";
+import { useEffect } from "react";
 
 const Stack = createStackNavigator();
 
-const accessToken = localstorage.getString('accessToken')
+const accessToken = localstorage.getString('accessToken');
+
+
 
 const Navigation = () => {
+    useEffect(()=>{
+    },[accessToken])
     return(
         <NavigationContainer>
             <Stack.Navigator 

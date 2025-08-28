@@ -7,6 +7,7 @@ import { Dimensions } from 'react-native';
 import { capFirstChar } from '../../../shared/utils/stringUtils';
 import { colorScheme } from '../../../shared/constants/colors';
 import React from 'react';
+import { localstorage } from '../../../shared/utils/localstorage';
 
 interface Props {
     updateStatus: ()=>void,
@@ -26,7 +27,7 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
     React.useCallback(() => {
         fetchUser()
       return () => {
-        // console.log('left screen');
+        
       };
     }, [])
   );
@@ -34,12 +35,12 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
     useEffect(()=>{
         fetchUser()
         updateStatus()
-    }, [])
+    }, []) 
     return(
         <SafeAreaProvider style={visibility}>
                 <View style={styles.screen}>
                         <View style={styles.bannerImgCont}>
-                            <Image source={{uri: 'https://res.cloudinary.com/dvyobogab/image/upload/v1748704475/samples/cloudinary-group.jpg'}}
+                            <Image source={{uri: localstorage.getString('bannerUrl')}}
                             style={{
                                 width: screen.width, 
                                 height: screen.height*0.15, 
@@ -48,7 +49,7 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
                                 }} />
                         </View>
                         <View style={styles.userImgCont}>
-                            <Image source={{uri: 'https://res.cloudinary.com/dvyobogab/image/upload/v1748704474/samples/animals/three-dogs.jpg'}}
+                            <Image source={{uri: localstorage.getString('avatarUrl')}}
                             style={{
                                 width: 65,
                                 height:65, 

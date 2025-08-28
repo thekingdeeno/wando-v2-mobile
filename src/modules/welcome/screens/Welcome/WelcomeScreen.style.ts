@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native"
+import { colorPallete, colorScheme } from "../../../../shared/constants/colors"
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: '#551C63',
+        backgroundColor: colorScheme.baseBgColor,
         height: '100%',
     },
     screenHeader: {
-        backgroundColor: '#40164B',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#74224E',
+        backgroundColor:  colorPallete.cardPurple,
         padding: 20,
         margin: 20,
         borderRadius: 10,

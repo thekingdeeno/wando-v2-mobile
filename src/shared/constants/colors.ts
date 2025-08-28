@@ -1,8 +1,6 @@
-import { Appearance } from "react-native";
-console.log(Appearance.getColorScheme());
+import { Appearance, useColorScheme } from "react-native";
 
 export const currentTheme = Appearance.getColorScheme();
-// const currentTheme = 'dark'
 
 export const colorPallete = {
     basePurple: '#3d0d26',
@@ -11,6 +9,7 @@ export const colorPallete = {
 
 const darkTheme = {
     baseBgColor: 'black',
+    baseFgColor: 'white', 
     defBorderColor: 'white',
     textColor: 'white',
     iconColor: 'white',
@@ -20,6 +19,7 @@ const darkTheme = {
 
 const lightTheme = {
     baseBgColor: 'white',
+    baseFgColor: 'black', 
     defBorderColor: 'black',
     textColor: 'black',
     iconColor: 'black',
