@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
     try {
-      const token = localstorage.getString('accessToken');
+      const token = localstorage.getString('accessToken');   
   
       if (token != null) {
         if (!config) {
@@ -30,27 +30,27 @@ class Http {
   
     initHttp() {
       const http = axios.create({
-        baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL,
+        baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
       });
   
       http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
   
-      http.interceptors.response.use(
-        (response) => response,
-        (error) => {
-          const { response } = error;
-          if (response.data.message && response.status !== 401) {
-            console.log(response.data.message);
-          } else {
-            response.status !== 401 &&
-            console.log('handle error');
+      // http.interceptors.response.use(
+      //   (response) => response,
+      //   (error) => {
+      //     const { response } = error;
+      //     if (response.data.message && response.status !== 401) {
+      //       console.log(response.data.message);
+      //     } else {
+      //       response.status !== 401 &&
+      //       console.log('handle error');
             
-            console.log('Something went wrong. Please check your connection and try again or contact support...');
-          }
+      //       console.log('Something went wrong. Please check your connection and try again or contact support...');
+      //     }
   
-          return this.handleError(response);
-        },
-      );
+      //     return this.handleError(response);
+      //   },
+      // );
   
       this.instance = http;
       return http;

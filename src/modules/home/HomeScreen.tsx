@@ -11,6 +11,7 @@ import PostFeed from "./screens/PostFeed";
 import ProfilePage from "./screens/ProfilePage";
 import DiscoveryPage from "./screens/DiscoveryPage";
 import useUser from "../../hooks/useUser";
+import { localstorage } from "../../shared/utils/localstorage";
 
 const HomeScreen = ()=>{
 
@@ -26,20 +27,27 @@ const HomeScreen = ()=>{
         setRenderedScreens([...renderedScreens, screen])
     };
 
-    const {fetchUser, delCurrentUser} = useUser();
-    
+    const {fetchUser, delCurrentUser, currentUser} = useUser()
+
     useEffect(()=>{
         fetchUser().then((data)=>{
-        console.log(data);
-        
         if (!data) {
             delCurrentUser();
         };
-        console.log(data);
-        
         data.avatar && Image.prefetch(data.avatar)
-      .then(success => {
+        .then(success => {
+            if (success) {
+                localstorage.set('avatarUrl', data.avatar)
+            console.log('Image prefetched successfully!');
+            } else {
+            console.log('Image prefetch failed.');
+            }
+        })
+
+        data.banner && Image.prefetch(data.banner) 
+        .then(success => {
         if (success) {
+            localstorage.set('bannerUrl', data.banner)
           console.log('Image prefetched successfully!');
         } else {
           console.log('Image prefetch failed.');

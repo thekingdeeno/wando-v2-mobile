@@ -1,92 +1,92 @@
-import {Text, StyleSheet, View, Image, Pressable, TextInput, Button} from 'react-native';
+import {Text, StyleSheet, View, Image, Pressable, TextInput} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import useAuth from "../../../../hooks/useAuth";
 import {colorPallete, colorScheme, currentTheme} from '../../../../shared/constants/colors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './LoginScreen.style';
+import TextField from '../../../../components/TextField';
+import MailIcon from '../../../../asset/svg/Mail';
+import { uiText } from '../../../../shared/constants/ui-styles';
+import Button from '../../../../components/Button';
+import LockIcon from '../../../../asset/svg/Lock';
+import EyeIcon from '../../../../asset/svg/EyeOpen';
+import EyeOffIcon from '../../../../asset/svg/EyeOff';
+import EyeClosedIcon from '../../../../asset/svg/EyeClosed';
 
 const LoginScreen = () => {
     const navigation = useNavigation<any>();
     const {loginForm, login, handleLoginForm} = useAuth()
+    const [hidePassword, setHidePassword] = useState<boolean>(true)
 
     return(
         <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: colorScheme.baseBgColor,}}>
-                <View style={style.screen}>
-                    <View>
-                            <Text style={style.header}>
-                                Wando
+            <SafeAreaView style={{backgroundColor: colorScheme.background,}}>
+                <View style={styles.screen}>
+                    <View style={styles.textContainer}>
+                            <Text style={{...uiText.Header}}>
+                                Welcome back
+                            </Text>
+
+                            <Text style={{...uiText.Text, color: colorScheme.textTetiary}}>
+                                Log in to continue your journey
                             </Text>
                     </View>
-                    <View style={style.formContainer}>
-                        <TextInput value={loginForm?.email.toLowerCase()} style={style.formInput} placeholder='Email'  onChange={(e)=>handleLoginForm(e, 'email')}/>
-                        <TextInput value={loginForm?.password} secureTextEntry style={style.formInput} placeholder='Password'  onChange={(e)=>handleLoginForm(e, 'password')}/>
-                    </View>
-                    <Pressable style={style.submitBtn} 
-                        onPress={()=>{
-                            login()
-                        }
-                    }>
-                            <Text style={{color: colorScheme.baseBgColor, textAlign: 'center'}} >
-                                Login
-                            </Text>
-                    </Pressable>
-                    <Text style={{...style.linkBtn}} onPress={()=>{
-                        navigation.replace('Auth', {screen: 'Signup'})
-                    }}>
-                        {`I don't have an account`}
+                    <View style={styles.formContainer}>
+                        <TextField
+                            value={loginForm?.email
+
+
+
+
+
+                                
+                            }
+                            placeholder='Enter your email'
+                            label='Email'
+                            onChange={(e)=>handleLoginForm(e, 'email')}
+                            LeftIcon={MailIcon}
+                        />
+                        <TextField
+                            value={loginForm?.password}
+                            label='Password'
+                            placeholder='Enter your password'
+                            onChange={(e)=>handleLoginForm(e, 'password')}
+                            LeftIcon={LockIcon}
+                            RightIcon={hidePassword ? EyeClosedIcon : EyeIcon}
+                            RightIconClick={()=>setHidePassword(!hidePassword)}
+                            secureText={hidePassword}
+                            LeftIconSize={16}
+
+                        />
+
+                        <Text style={{...styles.linkBtn}} onPress={()=>{
+                            navigation.replace('Auth', {screen: 'Signup'})
+                        }}>
+                        {`Forgot Password?`}
                     </Text>
+
+                    <Button text='Login' onPress={login} color='primary' />
+
+                    <View style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingVertical: 25}}>
+                        <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
+                        <Text style={{color: colorScheme.textTetiary}}>or</Text>
+                        <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
+                    </View>
+
+                    <View style={{display:'flex', flexDirection:'row', justifyContent: 'center'}}>
+                        <Text style={{...uiText.Text}}>Don't have and account? </Text>
+                        <Text style={{color: colorScheme.primaryPurple}} onPress={()=>{
+                            navigation.replace('Auth', {screen: 'Signup'})
+                        }}> Sign up</Text>
+                    </View>
+
+                    </View>
+
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>
     )
 };
-
-const style = StyleSheet.create({
-    screen: {
-        padding: 25,
-        height: '100%'
-    },
-    header: {
-        color: colorScheme.textColor, textAlign: 'center', fontSize: 40, paddingBottom: 20
-    },
-    formContainer: {
-        backgroundColor: colorPallete.cardPurple,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 10,
-        borderRadius: 10,
-        shadowOpacity: 0.1,
-        shadowOffset: {
-            width: 2,
-            height: 2
-        },
-        shadowRadius: 10,
-    },
-    formInput: {
-        backgroundColor: colorScheme.baseBgColor,
-        color: colorScheme.textColor,
-        opacity: 0.7,
-        marginTop: 10,
-        // marginLeft: 10,
-        // marginRight: 10,
-        padding: 15,
-        borderRadius: 5
-    },
-    submitBtn: {
-        backgroundColor: colorScheme.baseFgColor,
-        padding: 20,
-        marginTop: 20,
-        borderRadius: 10
-    },
-
-    linkBtn: {
-        color: colorScheme.baseFgColor,
-        textAlign: 'center',
-        marginTop: 30,
-        marginLeft: 70,
-        marginRight: 70,
-    }
-})
 
 export default LoginScreen

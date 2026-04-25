@@ -22,6 +22,8 @@ const useUser = () => {
                 setCurrentUser(response.data.data)
             }
             return response.data.data
+
+            
         } catch (error: any) {
             console.log(error)
         }finally{
@@ -58,9 +60,6 @@ const useUser = () => {
             if (response.data.status) {
                 Alert.alert(response.data.message)
             }
-            console.log(response.data.message);
-            
-            // localstorage.set('avatarUrl', response.data.data)
         } catch (error) {
             console.log(error)
         } finally {

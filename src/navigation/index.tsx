@@ -8,7 +8,10 @@ import { useEffect } from "react";
 
 const Stack = createStackNavigator();
 
-const accessToken = localstorage.getString('accessToken');
+// localstorage.delete('accessToken'); 
+const accessToken = localstorage.getString('accessToken'); 
+// const accessToken = true
+
 
 
 
@@ -18,7 +21,7 @@ const Navigation = () => {
     return(
         <NavigationContainer>
             <Stack.Navigator 
-            initialRouteName={accessToken ? 'Home' : 'Intro'}
+            initialRouteName={accessToken ? 'Home' : 'Auth'}
             screenOptions={{headerShown: false}}
             >
                 <Stack.Screen name="Auth" component={AuthNavigation} />

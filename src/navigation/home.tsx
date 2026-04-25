@@ -2,7 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../modules/home/HomeScreen";
 import CreatePost from "../modules/create-post/CreatePost";
 import ChatModule from "../modules/chat/ChatModule";
-import EditProfile from "../modules/home/screens/EditProfile";
+import EditProfile from "../modules/home/screens/EditProfile/EditProfile";
 import { localstorage } from "../shared/utils/localstorage";
 import { useEffect } from "react";
 import useUser from "../hooks/useUser";
@@ -10,13 +10,16 @@ import useUser from "../hooks/useUser";
 const HomeStack = createStackNavigator();
 
 const HomeNavigation = () => {
-    const {delCurrentUser} = useUser()
+    const {delCurrentUser, currentUser} = useUser()
     const accessToken = localstorage.getString('accessToken');
     if (!accessToken) {
         console.log(accessToken);
         
-        // delCurrentUser()
+        delCurrentUser()
     }
+
+        // console.log(currentUser);
+
     useEffect(()=>{
     },[accessToken])
     return(

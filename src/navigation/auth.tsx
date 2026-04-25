@@ -7,7 +7,7 @@ const AuthStack = createStackNavigator();
 const AuthNavigation = () => {
     return(
         <AuthStack.Navigator 
-            initialRouteName="Signup"
+            initialRouteName="Login"
             screenOptions={{headerShown: false}}
         > 
             <AuthStack.Screen name="Login" component={LoginScreen} />

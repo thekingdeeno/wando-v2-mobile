@@ -1,0 +1,24 @@
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
+import { colorScheme } from "../../shared/constants/colors";
+
+const MailIcon = (props) => {
+  const { color, size, ...otherProps } = props;
+  
+  return (
+    <Svg
+      width={size || 26}
+      height={size ? (size * 20) / 26 : 20} // Maintains aspect ratio if size is passed
+      viewBox="0 0 26 20"
+      fill="none"
+      {...otherProps}
+    >
+      <Path
+        d="M25 0H1C0.734784 0 0.48043 0.105357 0.292893 0.292893C0.105357 0.48043 0 0.734784 0 1V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H24C24.5304 20 25.0391 19.7893 25.4142 19.4142C25.7893 19.0391 26 18.5304 26 18V1C26 0.734784 25.8946 0.48043 25.7071 0.292893C25.5196 0.105357 25.2652 0 25 0ZM22.4287 2L13 10.6437L3.57125 2H22.4287ZM24 18H2V3.27375L12.3237 12.7375C12.5082 12.9069 12.7496 13.0008 13 13.0008C13.2504 13.0008 13.4918 12.9069 13.6763 12.7375L24 3.27375V18Z"
+        fill={color || colorScheme.textTetiary} // Defaults to your primaryPurple
+      />
+    </Svg>
+  );
+};
+
+export default MailIcon;

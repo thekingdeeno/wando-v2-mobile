@@ -1,15 +1,15 @@
-import { SafeAreaView, View, Image, Dimensions, Text, StyleSheet, TextInput, Alert, TextInputChangeEventData, NativeSyntheticEvent, Pressable } from "react-native"
+import { SafeAreaView, View, Image, Dimensions, Text, StyleSheet, TextInput, Alert, TextInputChangeEventData, NativeSyntheticEvent, Pressable, Platform } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-// import styles from "./HomeScreen.style"
-import { colorPallete, colorScheme } from "../../../shared/constants/colors";
-import useUser from "../../../hooks/useUser";
+import { colorPallete, colorScheme } from "../../../../shared/constants/colors";
+import useUser from "../../../../hooks/useUser";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { UserDataType } from "../../../shared/types/user.type";
-import { appIcons } from "../../../shared/constants/icons";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { localstorage } from "../../../shared/utils/localstorage";
-import { selectMedia } from "../../../shared/utils/deviceApi";
-import SlideUpModal from "../../../components/SlideUp.Modal";
+import { UserDataType } from "../../../../shared/types/user.type";
+import { appIcons } from "../../../../shared/constants/icons";
+import { ImagePickerResponse, launchCamera, launchImageLibrary } from "react-native-image-picker";
+import { localstorage } from "../../../../shared/utils/localstorage";
+import { hpc, wpc } from "../../../../shared/utils/helper";
+import { editProfileStyle as styles } from "./EditProfile.style";
+import SlideUpModal from "../../../../components/SlideUp.Modal";
 
 const screen = Dimensions.get('window');
 
@@ -20,8 +20,10 @@ const EditProfile = ()=>{
     const [profileForm, setProfileForm] = useState<Partial<UserDataType>>({});
     const [uploadModal, setUploadModal] = useState(false);
     const [uploadType, setUploadType] = useState<'avatar'|'banner'>();
+    const [selectedImage, setSelectedImage] = useState<ImagePickerResponse>();
     type UserKeys = keyof typeof profileForm;
     const inputRef = useRef<any>(null);
+
 
     function handleChange(e: NativeSyntheticEvent<TextInputChangeEventData>, name: string){
         if (name==='username') {
@@ -40,19 +42,47 @@ const EditProfile = ()=>{
         setProfileForm({[name]: `${currentUser&&currentUser[name]}`})
     };
 
-    async function updateImage(){
-        const selectedMedia = selectMedia();
-        
-        if (uploadType==='avatar') {
-            updateProfileImage(selectedMedia);
-        }else if (uploadType==='banner') {
-            updateProfileBanner(selectMedia)
-        }
+    const handleChoosePhoto = ()=>{
+        launchImageLibrary({mediaType: 'photo'},(data)=>{
+            if (data) {
+                setSelectedImage(data)
+            }
+        })
+        return
     }
 
-    async function launchCam(){
-        const image = await launchCamera({mediaType: 'photo'});
-    }
+    const createFormData = (photo: any, body?: any) => {
+        const data: any = new FormData();
+
+        const upload = photo[0]
+        
+
+        data.append('photo', {
+            name: upload.fileName,
+            type: upload.type,
+            uri: Platform.OS === 'ios' ? upload.uri.replace('file://', '') : upload.uri,
+        });
+
+        Object.keys(body).forEach((key) => {
+            data.append(key, body[key]);
+        });
+
+        console.log(uploadType);
+        
+        switch (uploadType) {
+            case 'avatar':
+                updateProfileImage(data)
+                break;
+            case 'banner':
+                updateProfileBanner(data)
+                break;
+        
+            default:
+                break;
+        }
+    };
+
+
 
     const profileFields: {label: string, name: UserKeys}[] = [
         {
@@ -77,40 +107,67 @@ const EditProfile = ()=>{
         },
     ];
 
+        // setInterval(()=>{
+        // console.log(actionSheetRef.current?.isOpen());
+
+        // }, 5000)
+
+
 
     useEffect(()=>{
         inputRef.current&& inputRef.current.focus();
+        
     })
     useEffect(()=>{
         fetchUser();
     },[])
 
+
     return(
         <SafeAreaProvider>
-                {uploadModal && 
-                    // <Pressable id="upload-modal" onPress={()=>setUploadModal(false)}  style={{height: '100%', width: '100%', position: 'absolute', backgroundColor: '#1c1c1cd3', bottom: 0, left: 0, zIndex: 100, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    //     <View id="upload-modal-body" style={{width: '80%', height: 'auto', backgroundColor:colorScheme.baseBgColor, borderWidth: 0.5, borderColor:'grey', borderRadius: 8,}}>
-                    //         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', padding: 20,}}>
-                    //             <Pressable onPress={()=>updateImage()}>
-                    //                 <View style={{borderWidth: 1, borderColor: 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, borderRadius: 5}}>
-                    //                     <Image source={{uri: appIcons.camIcon}} style={{height: 30, width: 30}} />
-                    //                 </View>
-                    //             </Pressable>
-                    //             <Pressable onPress={()=>updateImage()}>
-                    //                 <View style={{borderWidth: 1, borderColor: 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, borderRadius: 5}}>
-                    //                     <Image source={{uri: appIcons.imageIcon}} style={{height: 30, width: 30}} />
-                    //                 </View>
-                    //             </Pressable>
-                    //         </View>
-                    //     </View>
-                    // </Pressable> 
-                    <SlideUpModal active={uploadModal} changeVis={()=>{setUploadModal(!uploadModal)}}>
-                        <View></View>
-                    </SlideUpModal>
-                }
             <SafeAreaView style={{backgroundColor: colorScheme.baseBgColor}}>
                 <View style={{height: '100%'}}>
-                    <Pressable onPress={()=> {setUploadModal(true), setUploadType('banner')}}>
+                    {
+                        uploadModal&&
+                    <SlideUpModal
+                    hideModal={()=>{setUploadModal(false); setSelectedImage({})}}
+                    >
+                        {selectedImage?.assets
+                            ?
+                            <View id="selected-image-preview" style={styles.selectedImagePreview}>
+                                <Image src={`${selectedImage.assets[0].uri}`} style={styles.selectedImage} />
+                                <View id="upload-button-container" style={styles.uplaodButtonContainer}>
+                                <Pressable onPress={()=>{createFormData(selectedImage.assets, {})}}>
+                                    <Text style={styles.uploadButton}>Upload</Text>
+                                </Pressable>
+                                </View>
+                            </View> 
+                                : 
+                            <View style={styles.uploadModalBody}>
+                                <View>
+                                <Text style={styles.uploadModalHeader}>{`${uploadType === 'avatar' ? 'Upload Avatar': 'Upload Banner'}`}</Text>
+                                </View>
+                                <View style={{display: 'flex', flexDirection: 'row'}}>
+                                <Pressable onPress={()=>handleChoosePhoto()}>
+                                    <View style={styles.uploadModeIcon}>
+                                        <Image source={{uri: appIcons.camIcon}} style={{height: 30, width: 30}} />
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={()=>handleChoosePhoto()}>
+                                    <View style={styles.uploadModeIcon}>
+                                        <Image source={{uri: appIcons.imageIcon}} style={{height: 30, width: 30}} />
+                                    </View>
+                                </Pressable>
+                                </View>
+                            </View>
+                        }
+                    </SlideUpModal>
+                    }
+                    <Pressable onPress={()=> {
+                        setUploadModal(true)
+                        setUploadType('banner')
+                        
+                        }}>
                     <View style={{height: '5%'}}>
                         <Image source={{uri: localstorage.getString('bannerUrl')}}
                         style={{
@@ -130,7 +187,7 @@ const EditProfile = ()=>{
                     <View
                      style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'flex-start'}}
                      >  
-                    <Pressable onPress={()=> {setUploadModal(true), setUploadType('avatar')}}> 
+                    <Pressable onPress={()=> {setUploadType('avatar'); setUploadModal(true)}}> 
                      <Fragment>
                         <Image
                          source={{uri: localstorage.getString('avatarUrl')}}
@@ -155,7 +212,7 @@ const EditProfile = ()=>{
                             justifyContent:'center',
                             alignItems:'center',
                         }}>
-                            <Image source={require('../../../asset/icons/camicon-white.png')} style={{height: 30, width: 30}} />
+                            <Image source={require('../../../../asset/icons/camicon-white.png')} style={{height: 30, width: 30}} />
                         </View>
                      </Fragment>
                      </Pressable>
@@ -206,34 +263,5 @@ const EditProfile = ()=>{
     )
 }
 
-const styles = StyleSheet.create({
-    userDetails: {
-        paddingVertical:20,
-        paddingLeft: 10,
-        fontSize: 20
-    },
-    label: {
-        color: colorScheme.textColor,
-        paddingTop: 20,
-        paddingBottom: 10
-    },
-    inputField:{
-        padding: 10,
-        fontSize: 15,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: colorScheme.grey,
-        color: colorScheme.textColor
-    },
-    textField: {
-        padding: 10,
-        fontSize: 15,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#4b4b4ba1',
-        color: colorScheme.textColor,
-    }
-
-})
 
 export default EditProfile;

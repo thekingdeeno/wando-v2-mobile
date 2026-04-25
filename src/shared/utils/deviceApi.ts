@@ -1,5 +1,5 @@
 
-import { Alert } from 'react-native';
+import { Alert, Dimensions } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
