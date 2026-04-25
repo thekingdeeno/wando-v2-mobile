@@ -4,6 +4,7 @@ import { UserDataType } from "../shared/types/user.type";
 import { Alert } from "react-native";
 import { localstorage } from "../shared/utils/localstorage";
 import { useNavigation } from "@react-navigation/native";
+import { useToast } from "../components/Toast/ToastContext";
 
 
 const useUser = () => {
@@ -12,6 +13,8 @@ const useUser = () => {
     const [currentUser, setCurrentUser] = useState<UserDataType>()
 
     const navigation = useNavigation<any>();
+
+    const toast = useToast()
 
     const fetchUser = async (userId?: string)=>{
         try {
@@ -79,7 +82,7 @@ const useUser = () => {
                     Alert.alert(response.data.message)
                 }
                 // localstorage.set('bannerUrl', response.data.data)
-            } catch (error) {
+            } catch (error: any) {
                 console.log(error)
             } finally {
                 setIsLoading(false)

@@ -1,95 +1,87 @@
-import { Button, SafeAreaView, TextInput, View } from "react-native"
+import { SafeAreaView, TextInput, View } from "react-native"
 import {Text, StyleSheet, Image, Pressable} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../../../hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {colorPallete, colorScheme} from "../../../../shared/constants/colors";
+import TextField from "../../../../components/TextField";
+import EyeClosedIcon from "../../../../asset/svg/EyeClosed";
+import EyeIcon from "../../../../asset/svg/EyeOpen";
+import LockIcon from "../../../../asset/svg/Lock";
+import MailIcon from "../../../../asset/svg/Mail";
+import { uiText } from "../../../../shared/constants/ui-styles";
+import { useState } from "react";
+import Button from "../../../../components/Button";
+import styles from "./EmailOtpScreen.style";
+import UserIcon from "../../../../asset/svg/User";
 
 
 const SignupScreen = () => {
     const navigation = useNavigation<any>();
 
     const {signupForm, handleSignupForm, signup} = useAuth();
+        const [hidePassword, setHidePassword] = useState<boolean>(true)
 
     return(
-            <SafeAreaView style={{backgroundColor: colorScheme.baseBgColor,}}>
-                <View style={style.screen}>
-                    <View>
-                        <Text style={style.header}>
-                            Wando
-                        </Text>
-                    </View>
-                    <View style={style.formContainer}>
-                        <TextInput value={signupForm?.firstName} placeholder="First Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'firstName')} />
-                        <TextInput value={signupForm?.lastName} placeholder="Last Name" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'lastName')}/>
-                        <TextInput value={signupForm?.email.toLowerCase()} placeholder="Email" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'email')}/>
-                        <TextInput value={signupForm?.phoneNumber} placeholder="Phone Number" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'phoneNumber')}/>
-                        <TextInput value={signupForm?.username.toLowerCase()} placeholder="Username" style={style.formInput} onChange={(e)=>handleSignupForm(e, 'username')}/>
-                        <TextInput value={signupForm?.password} placeholder="Password" secureTextEntry style={style.formInput} onChange={(e)=>handleSignupForm(e, 'password')}/>
-                    </View>
-                    <Pressable style={style.submitBtn}
-                        onPress={()=>{
-                            signup()
-                        }
-                    }>
-                            <Text style={{color: colorScheme.baseBgColor, textAlign: 'center'}} >
-                                Sign Up
+        <SafeAreaProvider>
+            <SafeAreaView style={{backgroundColor: colorScheme.background,}}>
+                <View style={styles.screen}>
+                    <View style={styles.textContainer}>
+                            <Text style={{...uiText.Header}}>
+                                Create your account
                             </Text>
-                    </Pressable>
-                    <Text style={{...style.linkBtn}} onPress={()=>{
-                        navigation.replace('Auth', {screen: 'Login'})
-                    }}>{'I have an account'}</Text>
+
+                            <Text style={{...uiText.Text, color: colorScheme.textTetiary}}>
+                                Join Wando and Start Connecting
+                            </Text>
+                    </View>
+                    <View style={styles.formContainer}>
+                        <TextField
+                            value={signupForm?.firstName}
+                            placeholder='Enter your firstname'
+                            label='First Name'
+                            onChange={(e)=>handleSignupForm(e, 'firstName')}
+                            LeftIcon={UserIcon}
+                        />
+                        <TextField
+                            value={signupForm?.lastName}
+                            placeholder='Enter your lastname'
+                            label='Last Name'
+                            onChange={(e)=>handleSignupForm(e, 'lastName')}
+                            LeftIcon={UserIcon}
+                        />
+                        <TextField
+                            value={signupForm?.email}
+                            placeholder='Enter your email'
+                            label='Email'
+                            onChange={(e)=>handleSignupForm(e, 'email')}
+                            LeftIcon={MailIcon}
+                        />
+
+
+                    <View style={{marginTop: 30}}>
+                        <Button text='Next' onPress={signup} color='primary' />
+                    </View>
+
+                    <View style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingVertical: 25}}>
+                        <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
+                        <Text style={{color: colorScheme.textTetiary}}>or</Text>
+                        <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
+                    </View>
+
+                    <View style={{display:'flex', flexDirection:'row', justifyContent: 'center'}}>
+                        <Text style={{...uiText.Text}}>Already have an account? </Text>
+                        <Text style={{color: colorScheme.primaryPurple}} onPress={()=>{
+                            navigation.replace('Auth', {screen: 'Login'})
+                        }}> Login</Text>
+                    </View>
+
+                    </View>
+
                 </View>
             </SafeAreaView>
-    );
+        </SafeAreaProvider>
+    )
 };
-
-const style = StyleSheet.create({
-    screen: {
-        padding: 25,
-        height: '100%'
-    },
-    header: {
-        color: colorScheme.textColor, textAlign: 'center', fontSize: 40, paddingBottom: 20
-    },
-    formContainer: {
-        backgroundColor: colorPallete.cardPurple,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 10,
-        borderRadius: 10,
-        shadowOpacity: 0.1,
-        shadowOffset: {
-            width: 2,
-            height: 2
-        },
-        shadowRadius: 10,
-    },
-    formInput: {
-        backgroundColor: colorScheme.baseBgColor,
-        color: colorScheme.textColor,
-        opacity: 0.7,
-        marginTop: 10,
-        // marginLeft: 10,
-        // marginRight: 10,
-        padding: 15,
-        borderRadius: 5
-    },
-    submitBtn: {
-        backgroundColor: colorScheme.baseFgColor,
-        padding: 20,
-        marginTop: 20,
-        borderRadius: 10
-    },
-
-    linkBtn: {
-        color: colorScheme.baseFgColor,
-        textAlign: 'center',
-        marginTop: 30,
-        marginLeft: 70,
-        marginRight: 70,
-    }
-})
-
 
 export default SignupScreen;

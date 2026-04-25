@@ -4,7 +4,7 @@ import { colorScheme } from "../shared/constants/colors"
 import { borderRad } from "../shared/constants/ui-sizes"
 import { uiText } from "../shared/constants/ui-styles"
 
-type Props = {
+type TextProps = {
     onChange: ((e: NativeSyntheticEvent<TextInputChangeEventData>) => void) | undefined,
     label?: string,
     value?: string,
@@ -19,7 +19,7 @@ type Props = {
     RightIconClick?: ()=>void
 }
 
-const TextField = ({LeftIcon, RightIcon, placeholder, LeftIconColor, RightIconColor, LeftIconSize, RightIconSize, RightIconClick, onChange, secureText, label, value}: Props) => {
+const TextField = ({LeftIcon, RightIcon, placeholder, LeftIconColor, RightIconColor, LeftIconSize, RightIconSize, RightIconClick, onChange, secureText, label, value}: TextProps) => {
 
     const textFieldWidth = 
         (LeftIcon && !RightIcon || !LeftIcon && RightIcon) ? '85%' :

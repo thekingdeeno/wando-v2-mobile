@@ -1,25 +1,25 @@
 import { localstorage } from "../shared/utils/localstorage";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
-    try {
-      const token = localstorage.getString('accessToken');   
+// const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
+//     try {
+//       const token = localstorage.getString('accessToken');   
   
-      if (token != null) {
-        if (!config) {
-          config = {};
-        }
-        if (!config.headers) {
-          config.headers = {};
-        }
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    } catch (error) {
-      const err: any = error;
-      throw new Error(err);
-    }
-  };
+//       if (token != null) {
+//         if (!config) {
+//           config = {};
+//         }
+//         if (!config.headers) {
+//           config.headers = {};
+//         }
+//         config.headers.Authorization = `Bearer ${token}`;
+//       }
+//       return config;
+//     } catch (error) {
+//       const err: any = error;
+//       throw new Error(err);
+//     }
+//   };
 
 class Http {
     private instance: AxiosInstance | null = null;
@@ -27,25 +27,31 @@ class Http {
     private get http(): AxiosInstance {
       return this.instance != null ? this.instance : this.initHttp();
     }
-  
+    
     initHttp() {
       const http = axios.create({
         baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
       });
+
+      
   
-      http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
+      // http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
   
       // http.interceptors.response.use(
       //   (response) => response,
       //   (error) => {
       //     const { response } = error;
-      //     if (response.data.message && response.status !== 401) {
-      //       console.log(response.data.message);
-      //     } else {
-      //       response.status !== 401 &&
-      //       console.log('handle error');
-            
-      //       console.log('Something went wrong. Please check your connection and try again or contact support...');
+      //     console.log(error);
+          
+      //     if (response) {
+      //       if (response.data.message && response.status !== 401) {
+      //         console.log(response.data.message);
+      //       } else {
+      //         response.status !== 401 &&
+      //         console.log('handle error');
+              
+      //         console.log('Something went wrong. Please check your connection and try again or contact support...');
+      //       } 
       //     }
   
       //     return this.handleError(response);
@@ -81,10 +87,9 @@ class Http {
     }
   
     private handleError(error: { status: any }) {
-      // const { status } = error;
-      // console.log(error);
-      // function to handle error here
-      return Promise.reject(error);
+      const { status } = error;
+
+      return Promise.reject(error); 
     }
   }
   

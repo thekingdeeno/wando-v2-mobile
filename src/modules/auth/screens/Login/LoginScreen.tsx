@@ -13,6 +13,7 @@ import LockIcon from '../../../../asset/svg/Lock';
 import EyeIcon from '../../../../asset/svg/EyeOpen';
 import EyeOffIcon from '../../../../asset/svg/EyeOff';
 import EyeClosedIcon from '../../../../asset/svg/EyeClosed';
+import { useToast } from '../../../../components/Toast/ToastContext';
 
 const LoginScreen = () => {
     const navigation = useNavigation<any>();
@@ -34,14 +35,7 @@ const LoginScreen = () => {
                     </View>
                     <View style={styles.formContainer}>
                         <TextField
-                            value={loginForm?.email
-
-
-
-
-
-                                
-                            }
+                            value={loginForm?.email}
                             placeholder='Enter your email'
                             label='Email'
                             onChange={(e)=>handleLoginForm(e, 'email')}
@@ -60,11 +54,7 @@ const LoginScreen = () => {
 
                         />
 
-                        <Text style={{...styles.linkBtn}} onPress={()=>{
-                            navigation.replace('Auth', {screen: 'Signup'})
-                        }}>
-                        {`Forgot Password?`}
-                    </Text>
+                        <Text style={{...styles.linkBtn}} onPress={()=>null}>{`Forgot Password?`}</Text>
 
                     <Button text='Login' onPress={login} color='primary' />
 

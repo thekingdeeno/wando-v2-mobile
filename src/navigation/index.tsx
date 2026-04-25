@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeNavigation from "./home";
 import { localstorage } from "../shared/utils/localstorage";
 import { useEffect } from "react";
+import { ToastProvider } from "../components/Toast/ToastContext";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const Navigation = () => {
     useEffect(()=>{
     },[accessToken])
     return(
+        <ToastProvider>
         <NavigationContainer>
             <Stack.Navigator 
             initialRouteName={accessToken ? 'Home' : 'Auth'}
@@ -30,6 +32,7 @@ const Navigation = () => {
                 
             </Stack.Navigator>
         </NavigationContainer>
+        </ToastProvider>
     );
 };
 

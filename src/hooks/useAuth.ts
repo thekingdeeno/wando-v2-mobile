@@ -5,10 +5,12 @@ import { Alert, NativeSyntheticEvent, TextInputChangeEventData } from "react-nat
 import { httpClient } from "../api/http";
 import { useNavigation } from "@react-navigation/native";
 import { localstorage } from "../shared/utils/localstorage";
+import { useToast } from "../components/Toast/ToastContext";
 
 const useAuth = () => {
 
     const navigation = useNavigation<any>();
+    const toast = useToast()
     
     const [signupForm, setSignupForm] = useState<SignupForm>({
         firstName: "",
@@ -46,24 +48,24 @@ const useAuth = () => {
             
             const response: any = await httpClient.post(url, payload)
 
-            console.log(response.data);
+            console.log(response);
             
 
-            if (response.data.status) {
-                Alert.alert(response.data.message)
-                navigation.popToTop();
-                navigation.replace('Home', {screen: 'HomeScreen'});
-                localstorage.set('accessToken', response.data.data.accessToken)
-                localstorage.set('currentUser', JSON.stringify({
-                    email: response.data.data.email,
-                    userId: response.data.data.userId
-                }));
-            } else {
-                Alert.alert(response.data.message || 'Login Failed')
-            }
+            // if (response.data.status) {
+            //     Alert.alert(response.data.message)
+            //     navigation.popToTop();
+            //     navigation.replace('Home', {screen: 'HomeScreen'});
+            //     localstorage.set('accessToken', response.data.data.accessToken)
+            //     localstorage.set('currentUser', JSON.stringify({
+            //         email: response.data.data.email,
+            //         userId: response.data.data.userId
+            //     }));
+            // } else {
+            //     Alert.alert(response.data.message || 'Login Failed')
+            // }
         } catch (error: any) {
-                Alert.alert(error.message)
-                console.log(error.message);
+                // console.log(error.message);
+                toast.error('',error.message)
                 
         } finally {
             setLoader(false)
