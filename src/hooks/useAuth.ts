@@ -73,6 +73,8 @@ const useAuth = () => {
     };
 
     const signup = async ()=>{
+        navigation.navigate('Auth', {screen: 'OTP', params: {email: signupForm.email}})
+        return
         try {
             setLoader(true)
             const url = '/register/signup'

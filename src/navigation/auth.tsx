@@ -7,12 +7,12 @@ const AuthStack = createStackNavigator();
 const AuthNavigation = () => {
     return(
         <AuthStack.Navigator 
-            initialRouteName="Login"
+            initialRouteName="Signup"
             screenOptions={{headerShown: false}}
         > 
             <AuthStack.Screen name="Login" component={LoginScreen} />
             <AuthStack.Screen name="Signup" component={SignupScreen} />
-            <AuthStack.Screen name="EmailOTP" component={EmailOtpScreen}/>
+            <AuthStack.Screen name="OTP" component={EmailOtpScreen}/>
 
 
         </AuthStack.Navigator>

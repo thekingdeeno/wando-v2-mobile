@@ -12,7 +12,7 @@ import MailIcon from "../../../../asset/svg/Mail";
 import { uiText } from "../../../../shared/constants/ui-styles";
 import { useState } from "react";
 import Button from "../../../../components/Button";
-import styles from "./EmailOtpScreen.style";
+import styles from "../Login/LoginScreen.style";
 import UserIcon from "../../../../asset/svg/User";
 
 
@@ -75,9 +75,7 @@ const SignupScreen = () => {
                             navigation.replace('Auth', {screen: 'Login'})
                         }}> Login</Text>
                     </View>
-
                     </View>
-
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>
