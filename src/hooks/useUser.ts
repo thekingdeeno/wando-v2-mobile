@@ -40,13 +40,15 @@ const useUser = () => {
             const url = `user/update`
             const response = await httpClient.put(url, payload)
             if (response.data.status) {
-                Alert.alert(response.data.message)
+                toast.success('',response.data.message)
+                return true
             }
+            return false
         } catch (error) {
             console.log(error)
+            return false
         } finally {
             setIsLoading(false)
-            
         }
     }
 

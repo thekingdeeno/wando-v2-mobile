@@ -12,12 +12,13 @@ import Button from '../../../../components/Button';
 import LockIcon from '../../../../asset/svg/Lock';
 import EyeIcon from '../../../../asset/svg/EyeOpen';
 import EyeClosedIcon from '../../../../asset/svg/EyeClosed';
+import { useToast } from '../../../../components/Toast/ToastContext';
 
 const LoginScreen = () => {
     const navigation = useNavigation<any>();
     const { loginForm, login, handleLoginForm } = useAuth();
     const [hidePassword, setHidePassword] = useState<boolean>(true);
-
+    const toast = useToast();
     return (
         <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme.background }}>
@@ -65,7 +66,13 @@ const LoginScreen = () => {
                                     Forgot Password?
                                 </Text>
 
-                                <Button text="Login" onPress={login} color="primary" />
+                                <Button text="Login" onPress={() => {
+                                    if (!loginForm.email || !loginForm.password) {
+                                        toast.error("",'Please fill in all fields')
+                                        return;
+                                    }
+                                    login()
+                                }} color={loginForm.email && loginForm.password ? 'primary' : 'secondary'} />
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingVertical: 25 }}>
                                     <View style={{ borderWidth: 0.5, borderColor: colorScheme.divider, width: '43%' }} />

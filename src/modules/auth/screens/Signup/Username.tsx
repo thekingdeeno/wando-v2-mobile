@@ -3,17 +3,17 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import useAuth from "../../../../hooks/useAuth";
 import { colorScheme } from '../../../../shared/constants/colors';
-import { useState } from 'react';
 import styles from './Signup.style';
 import TextField from '../../../../components/TextField';
 import { uiText } from '../../../../shared/constants/ui-styles';
 import Button from '../../../../components/Button';
 import UserIcon from '../../../../asset/svg/User';
+import useUser from '../../../../hooks/useUser';
 
 const UsernameScreen = () => {
     const navigation = useNavigation<any>();
-    const { loginForm, login, handleLoginForm } = useAuth();
-    const [hidePassword, setHidePassword] = useState<boolean>(true);
+    const { handleUsername, username, checkingUsername, usernameAvailable } = useAuth();
+    const { updateUserProfile } = useUser();
 
     return (
         <SafeAreaProvider>
@@ -40,14 +40,33 @@ const UsernameScreen = () => {
 
                             <View style={styles.formContainer}>
                                 <TextField
-                                    value={loginForm?.email}
+                                    value={username}
                                     placeholder="Enter a username"
                                     label="Username"
-                                    onChange={(e) => handleLoginForm(e, 'email')}
+                                    onChange={(e) => {
+                                        
+                                        handleUsername(e)}
+                                    }
                                     LeftIcon={UserIcon}
                                 />
 
-                                <Button text="Login" onPress={()=>{}} color="primary" />
+                                <Text style={{
+                                    ...uiText.Text, height: 20,
+                                     color:`${checkingUsername ? "yellow" : usernameAvailable === true ? "green" : usernameAvailable === false && "red"}`}}>
+                                    {checkingUsername ? "Checking...":" "}
+                                    {usernameAvailable === true && "Available"}
+                                    {usernameAvailable === false && "Taken"}
+                                </Text>
+
+                                <Button text="Let's Go!!!" onPress={async ()=>{
+                                    if (usernameAvailable) {
+                                        const res = await updateUserProfile({username})
+                                        if (res) {
+                                            navigation.popToTop();
+                                            navigation.navigate('Home', {screen: 'HomeScreen'});
+                                        }    
+                                    }
+                                }} color={usernameAvailable ? 'primary' : 'secondary'} />
 
                             </View>
                         </View>

@@ -9,10 +9,12 @@ import { uiText } from "../../../../shared/constants/ui-styles";
 import Button from "../../../../components/Button";
 import styles from "../Login/LoginScreen.style";
 import UserIcon from "../../../../asset/svg/User";
+import { useToast } from "../../../../components/Toast/ToastContext";
 
 const SignupScreen = () => {
     const navigation = useNavigation<any>();
     const { signupForm, handleSignupForm, saveUser } = useAuth();
+    const toast = useToast();
 
     return (
         <SafeAreaProvider>
@@ -66,12 +68,12 @@ const SignupScreen = () => {
                                         text="Next"
                                         onPress={() => {
                                             if (!signupForm.firstName || !signupForm.lastName || !signupForm.email) {
-                                                Alert.alert("Please fill all fields");
+                                                toast.error("",'Please fill in all fields')
                                                 return;
                                             }
                                             saveUser();
                                         }}
-                                        color="primary"
+                                        color={signupForm.firstName && signupForm.lastName && signupForm.email ? 'primary' : 'secondary'}
                                     />
                                 </View>
 

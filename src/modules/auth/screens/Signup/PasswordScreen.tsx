@@ -93,7 +93,7 @@ const PasswordScreen = ({route}: any) => {
                                 />
                                 <View style={{marginTop: 50}}>
 
-                                <Button text="Create Password" onPress={()=>signup(route.params.email)} color="primary" />
+                                <Button text="Create Password" onPress={()=>passwordForm.confirmPassword && passwordForm.password && signup(route.params.email)} color={passwordForm.confirmPassword && passwordForm.password ? "primary" : "secondary"} />
                                 </View>
                             </View>
                             

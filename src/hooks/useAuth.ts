@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { use, useState } from "react"
 import { SignupForm } from "../shared/types/forms";
 import { LoginForm } from "../shared/types/forms";
 import { Alert, NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
@@ -36,6 +36,14 @@ const useAuth = () => {
         email: "",
         password: ""
     })
+
+    const [username, setUsername] = useState<string>("");
+
+    const [delayTimeout, setDelayTimeout] = useState<any>(null);
+
+    const [checkingUsername, setCheckingUsername] = useState<boolean>(false);
+    const [usernameAvailable, setUsernameAvailable] = useState<any>(null);
+
     const [loader, setLoader] = useState(false);
 
     const handleSignupForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, name: string)=>{
@@ -89,36 +97,60 @@ const useAuth = () => {
         setPasswordForm({...passwordForm, [name]: value, strength: lengthScore, color})
     }
 
+    const handleUsername = async (e: any)=>{
+        const value = e.nativeEvent.text;
+        setUsername(value.toLowerCase())
+        if (delayTimeout) {
+            clearTimeout(delayTimeout)
+            setDelayTimeout(null)
+        }
+
+        if (value === "") {
+            setUsernameAvailable(null)
+            return
+        }
+        setDelayTimeout(
+            setTimeout(async () => {
+                setCheckingUsername(true)
+                setUsernameAvailable(null)
+                const res: any = await checkExisting('username', value.toLowerCase())
+                if (res && res.status === true) {
+                    setUsernameAvailable(res.status)
+                }
+                setCheckingUsername(false)
+            }, 1000)
+        )   
+        
+    }
+
     const login = async ()=>{
         try {
             setLoader(true)
-            const url = `authentication/login`;
+            const url = `/authentication/login`;
             const payload = {
-                email: loginForm?.email || 'wandoprim@yopmail.com',
-                password: loginForm?.password || 'Password',
+                email: loginForm?.email,
+                password: loginForm?.password,
             }
             
             const response: any = await httpClient.post(url, payload)
 
-            console.log(response);
+            console.log(response.data);
             
 
-            // if (response.data.status) {
-            //     Alert.alert(response.data.message)
-            //     navigation.popToTop();
-            //     navigation.replace('Home', {screen: 'HomeScreen'});
-            //     localstorage.set('accessToken', response.data.data.accessToken)
-            //     localstorage.set('currentUser', JSON.stringify({
-            //         email: response.data.data.email,
-            //         userId: response.data.data.userId
-            //     }));
-            // } else {
-            //     Alert.alert(response.data.message || 'Login Failed')
-            // }
+            if (response.data.status) {
+                toast.success("Success",response.data.message)
+                navigation.popToTop();
+                navigation.replace('Home', {screen: 'HomeScreen'});
+                localstorage.set('accessToken', response.data.data.accessToken)
+                localstorage.set('currentUser', JSON.stringify({
+                    email: response.data.data.email,
+                    userId: response.data.data.userId
+                }));
+            } else {
+                toast.error("",response.data.message || 'Login Failed')
+            }
         } catch (error: any) {
-                // console.log(error.message);
                 toast.error('',error.message)
-                
         } finally {
             setLoader(false)
         }
@@ -133,11 +165,13 @@ const useAuth = () => {
             console.log(response);
             
             if (response.data.status) {
-                Alert.alert(response.data.message)
+                toast.success("Success",response.data.message)
                 navigation.navigate('Auth', {screen: 'OTP', params: {email: signupForm.email}})
+            } else { 
+                toast.error("",response.data.message || 'Signup Failed')
             }
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            toast.error('Error',error.message)
         } finally {
             setLoader(false)
         }
@@ -151,12 +185,12 @@ const useAuth = () => {
             const response: any = await httpClient.post(url, payload);
             console.log(response.data);
             if (response.data.status) {
-                Alert.alert(response.data.message)
+                toast.success("Success",response.data.message)
                 navigation.replace('Auth', {screen: 'Password', params: {email}})
             }
         } catch (error: any) {
             console.log(error);
-            Alert.alert(error.message)
+            toast.error('',error.message)
         } finally {
             setLoader(false);
         }
@@ -165,25 +199,47 @@ const useAuth = () => {
     const signup = async (email: string)=>{
         try {
             setLoader(true)
-            const payload = {
-                email,
-                password: passwordForm.password
+            if (passwordForm.password !== passwordForm.confirmPassword) {
+                toast.warning('Wait a minute!!', 'Passwords do not match')
+                return;
             }
             const response: any = await httpClient.post('/register/signup', {...passwordForm, email});
 
             console.log(response.data);
             
             if (response.data.status) {
-                Alert.alert(response.data.message)
+                toast.success("Success",response.data.message)
+                localstorage.set('accessToken', response.data.data.accessToken)
+                localstorage.set('currentUser', JSON.stringify({
+                    email: response.data.data.email,
+                    userId: response.data.data.userId
+                }));
                 navigation.replace('Auth', {screen: 'Username'})
+            } else {
+                toast.error("Error",response.data.message || 'Signup Failed')
             }
             
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
+            toast.error('',error.message)
         } finally {
             setLoader(false)
         }
     };
+
+    const checkExisting = async (fieldName: string, value: string)=>{
+        try {
+            setLoader(true)
+            const url = `/register/check-existing?fieldName=${fieldName}&value=${value}`
+            const response: any = await httpClient.get(url);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+
+        } finally {
+            setLoader(false)
+        }
+    }
 
     return{
         signupForm,
@@ -198,6 +254,10 @@ const useAuth = () => {
         signup,
         login,
         loader,
+        username,
+        handleUsername,
+        checkingUsername,
+        usernameAvailable,
     };
 };
 

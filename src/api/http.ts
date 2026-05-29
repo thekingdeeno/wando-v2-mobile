@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
     try {
       const token = localstorage.getString('accessToken');   
-  
+      
       if (token != null) {
         if (!config) {
           config = {};
@@ -30,8 +30,7 @@ class Http {
     
     initHttp() {
       const http = axios.create({
-        // baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
-        baseURL: 'https://tagnr-80-4-132-235.run.pinggy-free.link/v1',
+        baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
       });
   
       http.interceptors.request.use(injectToken, (error) => Promise.reject(error));

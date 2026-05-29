@@ -66,17 +66,17 @@ const OTPScreen = ({route}: any)=>{
                         <Text>01:45</Text>
                     </View>
 
-                    <View>
+                    {/* <View>
                         <Button text="Verify Code" onPress={()=>verifyEmailOtp(signupForm.email, otpValue)} color="primary">
 
                         </Button>
-                    </View>
+                    </View> */}
 
-                    <View style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingVertical: 25}}>
+                    {/* <View style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingVertical: 25}}>
                         <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
                         <Text style={{color: colorScheme.textTetiary}}>or</Text>
                         <View style={{borderWidth: 0.5, borderColor: colorScheme.divider, position: 'relative', width: '43%'}}></View>
-                    </View>
+                    </View> */}
 
                     <View 
                         style={{display:'flex', flexDirection:'row', justifyContent: 'center'}}
