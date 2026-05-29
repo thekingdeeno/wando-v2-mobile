@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable, TouchableOpacity } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import {colorPallete, colorScheme} from "../../../../shared/constants/colors";
-import style from "./EmailOtpScreen.style";
+import style from "./Signup.style";
 import { Fragment, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import Button from "../../../../components/Button";
@@ -11,12 +11,10 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-
-const EmailOtpScreen = ({route}: any)=>{
+const OTPScreen = ({route}: any)=>{
     const [otpValue, setOtpValue] = useState("")
     const {verifyEmailOtp, signupForm} = useAuth()
     const [otpIndex, setOtpIndex] = useState<number>(0)
-    
 
     function updateOtpForm(number: string){
         if(otpValue.length === 6){
@@ -26,15 +24,15 @@ const EmailOtpScreen = ({route}: any)=>{
         setOtpValue(newOtpValue);
         
         if (newOtpValue.length === 6) {
-            const {email, password} = route.params
-            verifyEmailOtp(email, password, newOtpValue)
+            const {email} = route.params
+            verifyEmailOtp(email, newOtpValue)
         }
     }
 
     return(
         <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: colorScheme.background}}>
-                <View style={style.screen}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme.background }}>
+            <View style={{padding: 20}}>
                     <View>
 
                     </View>
@@ -69,7 +67,7 @@ const EmailOtpScreen = ({route}: any)=>{
                     </View>
 
                     <View>
-                        <Button text="Verify Code" onPress={()=>verifyEmailOtp(signupForm.email, signupForm.password, otpValue)} color="primary">
+                        <Button text="Verify Code" onPress={()=>verifyEmailOtp(signupForm.email, otpValue)} color="primary">
 
                         </Button>
                     </View>
@@ -159,5 +157,5 @@ const EmailOtpScreen = ({route}: any)=>{
     )
 };  
 
-export default EmailOtpScreen
+export default OTPScreen
 

@@ -40,6 +40,7 @@ const TextField = ({LeftIcon, RightIcon, placeholder, LeftIconColor, RightIconCo
                     style={{...styles.text, width: textFieldWidth}}
                     onChange={onChange}
                     secureTextEntry={secureText}
+                    
                 />
                 {RightIcon &&
                 <Pressable onPress={RightIconClick}>

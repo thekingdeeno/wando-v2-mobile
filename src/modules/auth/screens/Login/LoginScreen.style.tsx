@@ -4,9 +4,9 @@ import { borderRad } from "../../../../shared/constants/ui-sizes"
 
 const styles = StyleSheet.create({
     screen: {
+        flex: 1,
         padding: 25,
-        marginTop: 50, 
-        height: '100%'
+        paddingTop: 50,
     },
     textContainer: {
         display: 'flex',
@@ -14,7 +14,10 @@ const styles = StyleSheet.create({
         padding: 40
     },
     header: {
-        color: colorScheme.textPrimary, textAlign: 'center', fontSize: 40, paddingBottom: 20
+        color: colorScheme.textPrimary,
+        textAlign: 'center',
+        fontSize: 40,
+        paddingBottom: 20
     },
     formContainer: {
         backgroundColor: colorScheme.background2,
@@ -44,7 +47,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10
     },
-
     linkBtn: {
         color: colorScheme.textSecondary,
         textAlign: 'right',

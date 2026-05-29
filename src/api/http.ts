@@ -1,25 +1,25 @@
 import { localstorage } from "../shared/utils/localstorage";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-// const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
-//     try {
-//       const token = localstorage.getString('accessToken');   
+const injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig | any> => {
+    try {
+      const token = localstorage.getString('accessToken');   
   
-//       if (token != null) {
-//         if (!config) {
-//           config = {};
-//         }
-//         if (!config.headers) {
-//           config.headers = {};
-//         }
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-//       return config;
-//     } catch (error) {
-//       const err: any = error;
-//       throw new Error(err);
-//     }
-//   };
+      if (token != null) {
+        if (!config) {
+          config = {};
+        }
+        if (!config.headers) {
+          config.headers = {};
+        }
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    } catch (error) {
+      const err: any = error;
+      throw new Error(err);
+    }
+  };
 
 class Http {
     private instance: AxiosInstance | null = null;
@@ -30,12 +30,11 @@ class Http {
     
     initHttp() {
       const http = axios.create({
-        baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
+        // baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
+        baseURL: 'https://tagnr-80-4-132-235.run.pinggy-free.link/v1',
       });
-
-      
   
-      // http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
+      http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
   
       // http.interceptors.response.use(
       //   (response) => response,
@@ -53,6 +52,7 @@ class Http {
       //         console.log('Something went wrong. Please check your connection and try again or contact support...');
       //       } 
       //     }
+          
   
       //     return this.handleError(response);
       //   },
