@@ -3,14 +3,15 @@ import { colorScheme } from "../../shared/constants/colors"
 
 const styles = StyleSheet.create({
     screen: {
-        height: '100%',
+        // height: '100%',
+        flex: 1,
+        backgroundColor: colorScheme.background,
     },
     screenHeader: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 0.5,
-        borderBottomColor: colorScheme.grey,
     },
     screenBody:{
         height: '100%',
@@ -18,7 +19,6 @@ const styles = StyleSheet.create({
     logoText: {
         padding: 20,
         fontSize: 20,
-        color: colorScheme.textColor,
     },
     introContainer: {
         paddingTop: 60,

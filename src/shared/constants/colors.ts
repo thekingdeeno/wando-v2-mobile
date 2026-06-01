@@ -9,7 +9,8 @@ export const colorPallete = {
 }
 
 const darkTheme = {
-    primaryPurple: '#613BF7',
+    // primaryPurple: '#613BF7',
+    primaryPurple: '#794AFC',
     softPurple: '#c7a7fb',
     accentPink: '#FF6EC7',
     accentBlue: '#4DD0FF',

@@ -9,12 +9,8 @@ import { ToastProvider } from "../components/Toast/ToastContext";
 
 const Stack = createStackNavigator();
 
-localstorage.delete('accessToken');
+// localstorage.delete('accessToken');
 const accessToken = localstorage.getString('accessToken'); 
-// const accessToken = true
-
-
-
 
 const Navigation = () => {
     useEffect(()=>{

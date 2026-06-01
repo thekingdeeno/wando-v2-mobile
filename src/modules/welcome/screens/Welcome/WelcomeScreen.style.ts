@@ -3,7 +3,7 @@ import { colorPallete, colorScheme } from "../../../../shared/constants/colors"
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: colorScheme.baseBgColor,
+        backgroundColor: colorScheme.background,
         height: '100%',
     },
     screenHeader: {

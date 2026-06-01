@@ -139,7 +139,7 @@ const useAuth = () => {
 
             if (response.data.status) {
                 toast.success("Success",response.data.message)
-                navigation.popToTop();
+                // navigation.popToTop();
                 navigation.replace('Home', {screen: 'HomeScreen'});
                 localstorage.set('accessToken', response.data.data.accessToken)
                 localstorage.set('currentUser', JSON.stringify({

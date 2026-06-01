@@ -15,7 +15,7 @@ import { localstorage } from "../../shared/utils/localstorage";
 
 const HomeScreen = ()=>{
 
-    const [currentScreen, setCurrentScreen] = useState<string|null>('post-feed')
+    const [currentScreen, setCurrentScreen] = useState<string>('post-feed')
 
     const switchScreen = (screen: string) => setCurrentScreen(screen);
     
@@ -77,32 +77,27 @@ const HomeScreen = ()=>{
     ]
 
     return(
-        <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: colorScheme.baseBgColor}}>
-                <View style={styles.screen}>
-
-                    <View style={styles.screenBody}>
-                        {screensData.map((screen)=>{
-                            return(
-                                <Fragment key={screen.id}>
-                                {(screen.condition||renderedScreens.includes(screen.id))&&
-                                React.createElement(
-                                    
-                                    screen.elemName,
-                                    {
-                                        visibility: screen.condition?{}:{display:'none'},
-                                        updateStatus: ()=>updateRenderedScreens(screen.id),
-                                        key: screen.id
-                                    })
-                                }
-                                </Fragment>                                
-                            )
-                        })}
-                    </View>
-                    <BottomNav changeScreen={(screen)=>switchScreen(screen)} />
-                </View>
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <SafeAreaView style={styles.screen}>
+            <View style={styles.screenBody}>
+                {screensData.map((screen)=>{
+                    return(
+                        <Fragment key={screen.id}>
+                        {(screen.condition||renderedScreens.includes(screen.id))&&
+                        React.createElement(
+                            
+                            screen.elemName,
+                            {
+                                visibility: screen.condition?{}:{display:'none'},
+                                updateStatus: ()=>updateRenderedScreens(screen.id),
+                                key: screen.id
+                            })
+                        }
+                        </Fragment>                                
+                    )
+                })}
+            </View>
+            <BottomNav changeScreen={(screen)=>switchScreen(screen)} activeScreen={currentScreen} />
+        </SafeAreaView>
     )
 };
 

@@ -1,4 +1,3 @@
-import { ReactElement } from "react"
 import { View, Text, TextInput, StyleSheet, Image, NativeSyntheticEvent, TextInputChangeEventData, Pressable} from "react-native"
 import { colorScheme } from "../shared/constants/colors"
 import { borderRad } from "../shared/constants/ui-sizes"

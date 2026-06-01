@@ -1,13 +1,20 @@
-import { Pressable, View, StyleSheet, Image } from "react-native"
+import { Pressable, View, StyleSheet, Image, Text } from "react-native"
 import { Icon } from 'react-native-elements';
 import {colorPallete, colorScheme} from "../shared/constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import { appIcons } from "../shared/constants/icons";
-import HomeIcon from "../asset/svg/home-icon.svg"
-import SvgComponent from "../asset/icons/svg";
+import { uiText } from "../shared/constants/ui-styles";
+import HomeIcon from "../asset/svg/Home";
+import ChatIcon from "../asset/svg/ChatIcon";
+import RocketLaunch from "../asset/svg/RocketLaunch";
+import SearchIcon from "../asset/svg/SearchIcon";
+import UserIcon from "../asset/svg/User";
+import MessageIcon from "../asset/svg/ChatIcon";
+import ShoppingBagIcon from "../asset/svg/ShoppingBag";
 
 type props = {
     changeScreen: (screen: string) => void;
+    activeScreen: string;
 }
 
 const navData = [
@@ -15,36 +22,35 @@ const navData = [
         name: 'home',
         action: 'change-screen',
         navTo: 'post-feed',
-        iconUri: appIcons.home,
-        // icon: HomeIcon
+        icon: HomeIcon
     },
     {
-        name: 'discover',
-        action: 'change-screem',
-        navTo: 'discovery-page',
-        iconUri: appIcons.magnifyingGlass
+        name: 'marketplace',
+        action: 'change-screen',
+        navTo: 'marketplace',
+        icon: ShoppingBagIcon
     },
     {
         name: 'upload',
         action: 'navigation',
         navTo: 'CreatePost',
-        iconUri: appIcons.uploadIcon
+        icon: RocketLaunch
     },
     {
         name: 'chat',
         action: 'navigation',
         navTo: 'ChatModule',
-        iconUri: appIcons.chatIcon
+        icon: MessageIcon
     },
     {
         name: 'profile',
         action: 'change-screen',
         navTo: 'user-profile',
-        iconUri: appIcons.userIcon
+        icon: UserIcon
     }
 ]
 
-const BottomNav = ({changeScreen}: props)=>{
+const BottomNav = ({changeScreen, activeScreen}: props)=>{
 
     const navigation = useNavigation<any>();
 
@@ -56,14 +62,17 @@ const BottomNav = ({changeScreen}: props)=>{
 
             <View style={styles.iconsContainer}>
                 {navData.map((nav)=>{
+                    const NavIcon = nav.icon
+                    const isActive = activeScreen === nav.navTo;
+                    const color = colorScheme[`${isActive ? 'primaryPurple' : 'textSecondary'}`]
                 return(
                 <Pressable style={styles.icon} key={nav.name} onPress={() => {
                     nav.action==='change-screen'?
                     changeScreen(nav.navTo):
                     navigation.navigate('Home', {screen: nav.navTo})
                 }}>
-                    <Image source={{uri: nav.iconUri}} height={20} width={20} />
-                    {/* <SvgComponent /> */}
+                    <NavIcon color={color} size={18} />
+                    <Text style={{...uiText.Caption, fontSize: 9, color, paddingVertical: 8}}>{(nav.name)[0].toUpperCase() + (nav.name).slice(1)}</Text>
                 </Pressable>
                 )})
 
@@ -85,10 +94,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     icon: {
-        padding: 5,
+        width: '15%',
+        marginHorizontal: 10,
         borderRadius: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        // justifyContent: 'center'
     }
 })
 
