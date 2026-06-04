@@ -1,4 +1,4 @@
-import { Touchable, TouchableOpacity, View } from "react-native"
+import { ScrollView, Touchable, TouchableOpacity, View } from "react-native"
 import {Text, StyleSheet, Image, Pressable} from 'react-native';
 // import styles from "../HomeScreen.style";
 import { useNavigation } from "@react-navigation/native";
@@ -33,7 +33,7 @@ const PostFeed = ({updateStatus, visibility}:Props)=>{
     ]
 
     return(
-                <View style={styles.screenHead}>
+                <View style={{...styles.screenHead, ...visibility}}>
                     <View style={styles.screenHeader_top}>
                         <View>
                             <Image 
@@ -65,6 +65,10 @@ const PostFeed = ({updateStatus, visibility}:Props)=>{
                         })
                        }
                     </View>
+
+                    <ScrollView style={{ height: '100%'}} contentContainerStyle={{gap: 20, paddingBottom: 100}}>
+                        <Text style={{...uiText.BigText, color: colorScheme.textSecondary, textAlign: 'center', marginVertical: 200}}>No Posts Yet</Text>
+                    </ScrollView>
                 </View>
     )
 };

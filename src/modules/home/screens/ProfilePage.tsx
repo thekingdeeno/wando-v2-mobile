@@ -1,4 +1,4 @@
-import {Text, StyleSheet, View, Image, Pressable} from 'react-native';
+import {Text, StyleSheet, View, Image, Pressable, ScrollView} from 'react-native';
 import { useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +8,14 @@ import { capFirstChar } from '../../../shared/utils/stringUtils';
 import { colorScheme } from '../../../shared/constants/colors';
 import React from 'react';
 import { localstorage } from '../../../shared/utils/localstorage';
+import { uiText } from '../../../shared/constants/ui-styles';
+import ChevronLeft from '../../../asset/svg/ChevronLeft';
+import GearIcon from '../../../asset/svg/GearIcon';
+import VerticalDots from '../../../asset/svg/VerticalDots';
+import VerifiedShieldIcon from '../../../asset/svg/VerifiedShield';
+import LocationPinIcon from '../../../asset/svg/LocationPin';
+import VerifiedShieldFilled from '../../../asset/svg/VerifiedShieldFill';
+
 
 interface Props {
     updateStatus: ()=>void,
@@ -37,179 +45,93 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
         updateStatus()
     }, []) 
     return(
-        <SafeAreaProvider style={visibility}>
-                <View style={styles.screen}>
-                        <View style={styles.bannerImgCont}>
-                            <Image source={{uri: localstorage.getString('bannerUrl')}}
-                            style={{
-                                width: screen.width, 
-                                height: screen.height*0.15, 
-                                position:'relative', 
-                                bottom:screen.height/14
-                                }} />
-                        </View>
-                        <View style={styles.userImgCont}>
-                            <Image source={{uri: localstorage.getString('avatarUrl')}}
-                            style={{
-                                width: 65,
-                                height:65, 
-                                borderWidth:2, 
-                                borderRadius: '50%',
-                                marginLeft: 10
-                            }} />
-                        </View>
-                    {currentUser &&
-                    <View style={styles.infoSection}>
-                            <View>
-                                <View style={styles.nameArea}>
-                                    
-                                    <View>
-                                        <Text style={{ color: colorScheme.textColor, fontSize: 30,}}>
-                                            {`${currentUser.username}`}
-                                        </Text>
-                                        <Text style={{ color: '#bebebeff', fontSize: 15}}>
-                                            {`${capFirstChar(currentUser?.firstName)} ${capFirstChar(currentUser?.lastName)}`}
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        <Pressable>
-                                            <Text 
-                                             style={{...styles.editProfileBtn,color: colorScheme.textColor, fontSize: 8}}
-                                             onPress={()=>{
-                                            navigation.navigate('Home', {screen: 'EditProfile'});
-                                         }}>Edit Profile</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                                <Text style={{ color: 'white', fontSize: 13, paddingTop: 10}}>
-                                    {`${currentUser.bio || ''}`}
-                                </Text>
-                            </View>
+        <View style={{...styles.screen, ...visibility}}>
+            <View style={{...styles.header, alignItems: 'center', justifyContent: 'flex-start'}}>
+                <Pressable
+                    style={{width: '33.3%'}}
+                >
+                    <ChevronLeft color={colorScheme.textPrimary} size={10} />
+                </Pressable>
 
-                            {/* Some other user Data */}
-                            <View>
-                            </View>
-
-                            {/* Numeric Data  */}
-                            <View style={{
-                                display: 'flex',
-                                justifyContent: 'space-evenly',
-                                flexDirection:'row',
-                                paddingTop: 20,
-                                paddingBottom: 20,
-                                // borderBottomColor: '#3d3d3dff',
-                                }}>
-                                <View>
-                                    <Text style={styles.profileMetricNo}>{currentUser.followers}</Text>
-                                    <Text style={styles.profileMetricLabel}>{'Followers'}</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.profileMetricNo}>{currentUser.following}</Text>
-                                    <Text style={styles.profileMetricLabel}>{'Following'}</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.profileMetricNo}>{currentUser.following}</Text>
-                                    <Text style={styles.profileMetricLabel}>{'Likes'}</Text>
-                                </View>
-                            </View>
-
-                            {/* post tabs */}
-                            <View style={{
-                                display: 'flex',
-                                flexDirection:'row',
-                                justifyContent: 'space-between',
-                                paddingTop: 30,
-                                paddingHorizontal: 10,
-                                borderBottomColor: '#434343ff',
-                                // borderWidth: 0.2,
-                            }}>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='feed'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('feed')}
-                                >
-                                    {'Feed'}
-                                </Text>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='repost'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('repost')}
-                                >
-                                    {'Reposts'}
-                                </Text>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='writes'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('writes')}
-                                >
-                                    {'Writes'}
-                                </Text>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='photos'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('photos')}
-                                >
-                                    {'Photos'}
-                                </Text>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='videos'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('videos')}
-                                >
-                                    {'Videos'}
-                                </Text>
-                                <Text style={{...styles.postTabs, borderBottomColor: `${postsTab==='filter'?'red':'transparent'}`}}
-                                onPress={()=>setPostsTab('filter')}
-                                >
-                                    {'Filter'}
-                                </Text>
-                            </View>
-                    </View>
-                    }
-                        {/* <Text style={styles.username}>{currentUser?.username}</Text> */}
+                <View style={{width: '33.3%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={{...uiText.Text, fontSize: 15}}>@{currentUser?.username}</Text>
                 </View>
-        </SafeAreaProvider>
+
+                <View style={{width: '33.3%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 23, alignItems: 'center'}}>
+                    <Pressable style={{}}>
+                        <GearIcon color={colorScheme.textPrimary} size={23}/>
+                    </Pressable>
+                    <Pressable style={{}}>
+                        <VerticalDots color={colorScheme.textPrimary} size={3} />
+                    </Pressable>
+                </View>
+            </View>
+
+            <ScrollView>
+            <View style={styles.showCaseContainer}>
+                <View>
+                    <View style={styles.pfpContainer}>
+                        <Image source={require('../../../asset/images/DefaultPFP.png')}
+                            style={{height: '111%', width: '100%',}}
+                        />
+                    </View>
+                    <VerifiedShieldFilled color={colorScheme.primaryPurple} size={20} style={{position: 'absolute', bottom: 20, right: 20}} />
+                </View>
+                <Text style={{...uiText.Header}}>{capFirstChar(currentUser?.firstName || '')} {capFirstChar(currentUser?.lastName || '')}</Text>
+                <Text style={{...uiText.Text, color: colorScheme.textSecondary, margin: 10}}>Birminhgam City University</Text>
+                <Text style={{
+                    ...uiText.Text, paddingHorizontal: 13, paddingVertical: 3, borderRadius: 20, 
+                    backgroundColor: colorScheme.button_border, fontSize: 12,
+                    color: colorScheme.softPurple, marginTop: 10
+                    }}>Computer Science • 2nd Year</Text>
+                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 30 ,margin: 20}}>
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                        <VerifiedShieldIcon color={colorScheme.primaryPurple} size={12}/>
+                        <Text style={{...uiText.Caption, color: colorScheme.textPrimary, fontSize: 12}}>Verified Student</Text>
+                    </View>
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                        <LocationPinIcon color={colorScheme.primaryPurple} size={12}/>
+                        <Text style={{...uiText.Caption, color: colorScheme.textPrimary, fontSize: 12}}>Birmingham, UK</Text>
+                    </View>
+                </View>
+            </View>
+            </ScrollView>
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: colorScheme.baseBgColor,
+        backgroundColor: colorScheme.background,
+        paddingTop: 20,
     },
-    bannerImgCont:{
-        width: '100%',
-        height: '10%',
-    },
-    userImgCont: {
-        width:'100%',
-        display:'flex',
-        justifyContent:'center',
-        // alignItems:'center'
-    },
-    infoSection: {
-        padding: 10,
-        // display: 'flex',
-        // justifyContent: 'space-between',
-        // alignItems: 'flex-start'
-    },
-    nameArea: {
+    header:{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent:'space-between',
-        width: '100%',
-    }, 
-    editProfileBtn:{
-        borderColor: colorScheme.defBorderColor,
-        borderWidth:0.2,
-        borderRadius: 3,
-        paddingVertical:4,
-        paddingHorizontal:10,
-        marginRight: 10
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 23,
     },
-    profileMetricNo: { 
-        color:colorScheme.textColor,
-        fontSize: 20,
-        textAlign: 'center',
+    headerIcons: {
+        color: colorScheme.textPrimary,
+        width: 20,
+        height: 20,
     },
-    profileMetricLabel: {
-        color: '#949494ff'
 
+    showCaseContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
     },
-    postTabs: {
-        color: colorScheme.textColor,
-        padding: 10,
-        borderBottomWidth: 1
-    },
+    pfpContainer: {
+        width: '23%',
+        aspectRatio: 1,
+        borderRadius: '50%',
+        overflow: 'hidden',
+        margin: 15,
+    }
 
 })
 

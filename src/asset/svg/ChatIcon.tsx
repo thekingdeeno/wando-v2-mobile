@@ -1,6 +1,6 @@
 import Svg, { Path } from 'react-native-svg';
 
-const ChatIcon = (props) => {
+const ChatIcon = (props: any) => {
   const { color, size, ...otherProps } = props;
 
   return (
