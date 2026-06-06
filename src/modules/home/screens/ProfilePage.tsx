@@ -1,4 +1,4 @@
-import {Text, StyleSheet, View, Image, Pressable, ScrollView} from 'react-native';
+import {Text, StyleSheet, View, Image, Pressable, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import { useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +15,10 @@ import VerticalDots from '../../../asset/svg/VerticalDots';
 import VerifiedShieldIcon from '../../../asset/svg/VerifiedShield';
 import LocationPinIcon from '../../../asset/svg/LocationPin';
 import VerifiedShieldFilled from '../../../asset/svg/VerifiedShieldFill';
+import EditIcon from '../../../asset/svg/EditIcon';
+import UploadIcon from '../../../asset/svg/UplaodIcon';
+import genStyles from '../../../shared/constants/generic.styles';
+import Button from '../../../components/Button';
 
 
 interface Props {
@@ -95,6 +99,50 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
                     </View>
                 </View>
             </View>
+
+            <View style={{...genStyles.flexRow, justifyContent: 'space-evenly', paddingVertical: 20, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colorScheme.divider}}>
+                <View style={{alignItems: 'center'}}>
+                    <Text style={{...uiText.Header}}>1K</Text>
+                    <Text style={{...uiText.TextSecondary}}>Followers</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
+                   <Text style={{...uiText.Header}}>53</Text>
+                    <Text style={{...uiText.TextSecondary}}>Friends</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
+                   <Text style={{...uiText.Header}}>29</Text>
+                    <Text style={{...uiText.TextSecondary}}>Events</Text>
+                </View>
+            </View>
+
+            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 20, justifyContent: 'space-between'}}>
+                <View style={{width: '48%'}}>
+                    <Button text='Edit Profile' color='primary' icon={EditIcon}
+                    iconProps={{color: 'white', size: 15}} buttonStyles={{width: "100%"}} 
+                    onPress={()=>{}}/>
+                </View>
+                <View style={{width: '48%'}}>
+                    <Button text='Share Profile' color='secondary' icon={UploadIcon} iconProps={{color: colorScheme.softPurple, size: 15}}
+                    buttonStyles={{width: '100%'}} onPress={()=>{}}/>
+                </View>
+            </View>
+
+
+            <View style={{marginTop: 20}}>
+                <View style={{...genStyles.flexRow, justifyContent: 'space-between'}}>
+                    <Text style={{...uiText.Text}}>Interest</Text>
+                    <Text style={{...uiText.Text, color: colorScheme.primaryPurple}}>See all</Text>
+                </View>
+
+                <View>
+
+                </View>
+            </View>
+
+            <View>
+                <Text></Text>
+            </View>
+
             </ScrollView>
         </View>
     )
@@ -103,14 +151,15 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: colorScheme.background,
-        paddingTop: 20,
+        // paddingTop: 20,
+        padding: 20
     },
     header:{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 23,
+        // paddingHorizontal: 23,
     },
     headerIcons: {
         color: colorScheme.textPrimary,

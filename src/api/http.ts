@@ -35,27 +35,26 @@ class Http {
   
       http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
   
-      // http.interceptors.response.use(
-      //   (response) => response,
-      //   (error) => {
-      //     const { response } = error;
-      //     console.log(error);
-          
-      //     if (response) {
-      //       if (response.data.message && response.status !== 401) {
-      //         console.log(response.data.message);
-      //       } else {
-      //         response.status !== 401 &&
-      //         console.log('handle error');
+      http.interceptors.response.use(
+        (response) => response,
+        (error) => {
+          const { response } = error;
+          console.log(error);
+          if (response) {
+            if (response.data.message && response.status !== 401) {
+              console.log(response.data.message);
+            } else {
+              response.status !== 401 &&
+              console.log('handle error');
               
-      //         console.log('Something went wrong. Please check your connection and try again or contact support...');
-      //       } 
-      //     }
+              console.log('Something went wrong. Please check your connection and try again or contact support...');
+            } 
+          }
           
   
-      //     return this.handleError(response);
-      //   },
-      // );
+          return this.handleError(response);
+        },
+      );
   
       this.instance = http;
       return http;

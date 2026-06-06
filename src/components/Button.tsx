@@ -1,22 +1,29 @@
-import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent, ColorValue } from "react-native"
+import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent, ColorValue, View, TextStyle, StyleProp, ViewStyle } from "react-native"
 import { borderRad } from "../shared/constants/ui-sizes"
 import { colorScheme } from "../shared/constants/colors";
 import { uiText } from "../shared/constants/ui-styles";
 import { currentTheme } from "../shared/constants/colors";
+import { CSSProperties } from "react";
 
 
 interface Props {
     text: string;
+    textStyles?: any;
+    buttonStyles?: any;
     color: 'primary' | 'secondary' | 'tetiary'
+    icon?: any;
+    iconProps?: any;
     onPress:  ((event: GestureResponderEvent) => void) | undefined
 }
 
-const Button = ({onPress, text, color}: Props)=>{
+const Button = ({onPress, text, color, icon, iconProps, textStyles, buttonStyles}: Props)=>{
 
 let btnBg 
 let btnTxt
 
 const tetiaryStyle: any = {}
+
+const Icon = icon
 
 
 switch (color) {
@@ -42,19 +49,28 @@ switch (color) {
 }
 
     return (
-        <TouchableOpacity  onPress={onPress} style={{
-           
-        }}>
-            <Text style={{
+        <TouchableOpacity  onPress={onPress} style={{...buttonStyles}}>
+            <View style={{
                 ...styles.button, 
+                // ...buttonStyles,
                 backgroundColor: btnBg,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 5,
+            }}>
+                {icon && <Icon {...iconProps} />}
+                <Text
+                style={{
                 ...uiText.Text,
                 color: btnTxt,
                 ...tetiaryStyle,
-                fontWeight: 'semibold'
-                }}>
-                {text}
-            </Text>
+                fontWeight: 'semibold',
+                ...textStyles
+                }}
+                >{text}</Text>
+            </View>
         </TouchableOpacity>
     )
 }
@@ -67,15 +83,5 @@ const styles = StyleSheet.create({
         textAlign:'center',
         padding: 15, 
         fontSize: 15, 
-        fontWeight: 'bold'
     },
-    innerText: {
-        
-    },
-    secondaryBg: {
-
-    },
-    tetiaryBg: {
-        
-    }
 })
