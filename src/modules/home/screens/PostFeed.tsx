@@ -56,11 +56,11 @@ const PostFeed = ({updateStatus, visibility}:Props)=>{
                             const isActive = activeTab === tab.value;                 
                             const color = colorScheme[`${isActive ? 'primaryPurple' : 'textSecondary'}`]           
                             return(
-                                <Pressable key={tab.value} onPress={()=>setActiveTab(tab.value)}>
+                                <TouchableOpacity key={tab.value} onPress={()=>setActiveTab(tab.value)}>
                                     <View style={{padding: 10, marginBottom: 10, borderBottomWidth: 2, borderBottomColor: isActive? colorScheme.primaryPurple : 'transparent'}}>
                                         <Text style={{...uiText.Caption, color, fontSize: 12}}>{tab.name}</Text>
                                     </View>
-                                </Pressable>
+                                </TouchableOpacity>
                             )
                         })
                        }

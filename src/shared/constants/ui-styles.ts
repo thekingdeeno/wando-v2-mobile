@@ -41,6 +41,7 @@ export const uiText = StyleSheet.create({
         fontSize: 11,
         fontFamily: 'Poppins Medium',
         fontWeight: 'regular',
+        color: colorScheme.textSecondary
     }
 })
 

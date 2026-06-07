@@ -5,7 +5,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useUser from "../../../hooks/useUser";
 import { Dimensions } from 'react-native';
 import { capFirstChar } from '../../../shared/utils/stringUtils';
-import { colorScheme } from '../../../shared/constants/colors';
+import { colorScheme, currentTheme } from '../../../shared/constants/colors';
 import React from 'react';
 import { localstorage } from '../../../shared/utils/localstorage';
 import { uiText } from '../../../shared/constants/ui-styles';
@@ -19,6 +19,8 @@ import EditIcon from '../../../asset/svg/EditIcon';
 import UploadIcon from '../../../asset/svg/UplaodIcon';
 import genStyles from '../../../shared/constants/generic.styles';
 import Button from '../../../components/Button';
+import { borderRad } from '../../../shared/constants/ui-sizes';
+import { formatLargeNumber } from '../../../shared/utils/helper';
 
 
 interface Props {
@@ -33,7 +35,23 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
     
     const {fetchUser, currentUser} = useUser();
 
-    const [postsTab, setPostsTab] = useState<string>('feed')
+    const [contentTab, setContentTab] = useState<string>('posts');
+
+    const hobbies = ['Football', 'Cooking', 'Traveling', 'Music', 'Photography', 'Gaming', 'Reading', 'Fitness']
+    const bio = '3rd year Computer Science student. Looking for startup founders, hackathon teammates and people interested in Al.'
+    const communities = [{
+        name:'Computer Science',
+        members: 24000
+    },
+    {
+        name:'Startup Builders',
+        members: 17000
+    },
+    {
+        name:'Campus Basketball',
+        members: 932
+    }
+]
 
     useFocusEffect(
     React.useCallback(() => {
@@ -71,7 +89,7 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
                 </View>
             </View>
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.showCaseContainer}>
                 <View>
                     <View style={styles.pfpContainer}>
@@ -86,7 +104,7 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
                 <Text style={{
                     ...uiText.Text, paddingHorizontal: 13, paddingVertical: 3, borderRadius: 20, 
                     backgroundColor: colorScheme.button_border, fontSize: 12,
-                    color: colorScheme.softPurple, marginTop: 10
+                    color: colorScheme.textSecondary, marginTop: 10
                     }}>Computer Science • 2nd Year</Text>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 30 ,margin: 20}}>
                     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
@@ -122,27 +140,129 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
                     onPress={()=>{}}/>
                 </View>
                 <View style={{width: '48%'}}>
-                    <Button text='Share Profile' color='secondary' icon={UploadIcon} iconProps={{color: colorScheme.softPurple, size: 15}}
+                    <Button text='Share Profile' color='secondary' icon={UploadIcon} iconProps={{
+                        color: `${currentTheme === 'dark' ? colorScheme.softPurple : colorScheme.primaryPurple}`,
+                         size: 15}}
                     buttonStyles={{width: '100%'}} onPress={()=>{}}/>
                 </View>
             </View>
 
 
-            <View style={{marginTop: 20}}>
-                <View style={{...genStyles.flexRow, justifyContent: 'space-between'}}>
-                    <Text style={{...uiText.Text}}>Interest</Text>
+            <View style={{marginTop: 10}}>
+                <View style={{...genStyles.flexRow, marginBottom: 10}}>
+                    <Text style={{...uiText.Text, marginRight: 10}}>Interest</Text>
                     <Text style={{...uiText.Text, color: colorScheme.primaryPurple}}>See all</Text>
                 </View>
 
-                <View>
-
+                <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: "wrap",
+                    backgroundColor: colorScheme.background3,
+                    padding: 5,
+                    borderRadius: borderRad.small,
+                    overflow: 'scroll',
+                }}>
+                    {hobbies.slice(0, 5).map((hobby, index)=>{
+                        return(
+                            <View key={index} style={{padding: 10, backgroundColor: colorScheme.background3, borderRadius: 8, margin: 5,
+                            display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center', borderWidth: 1, borderColor: colorScheme.primaryPurple
+                            }}>
+                                <VerifiedShieldIcon color={colorScheme.primaryPurple} size={15}/>
+                                <Text style={{...uiText.Text, color: colorScheme.textPrimary,}}>{hobby}</Text>
+                            </View>
+                        )
+                    })}
+                    <View style={{padding: 10, backgroundColor: colorScheme.background3, borderRadius: 8, margin: 5,borderWidth: 1, borderColor: colorScheme.primaryPurple}}>
+                    
+                    <Text style={{...uiText.Text, color: colorScheme.textPrimary,}}>+</Text>
+                    </View>
                 </View>
             </View>
 
-            <View>
-                <Text></Text>
+            <View style={{marginVertical: 10}}>
+                <Text style={{...uiText.Text}}>About</Text>
+                <Text style={{
+                    ...uiText.TextSecondary,
+                    backgroundColor: colorScheme.background3,
+                    marginVertical: 20,
+                    padding: 20,
+                    borderRadius: borderRad.small,
+                }}>{bio}</Text>
             </View>
 
+            <View style={{marginVertical: 10, paddingTop: 10}}>
+                <View style={{...genStyles.flexRow, marginBottom: 10}}>
+                    <Text style={{...uiText.Text, marginRight: 10}}>Communities</Text>
+                    <Text style={{...uiText.Text, color: colorScheme.primaryPurple}}>See all</Text>
+                </View>
+                <View>
+                    {communities.slice(0,3).map((data, i)=>{
+                        return(
+                            <TouchableOpacity key={i} style={{display: 'flex', flexDirection:'row', alignItems:'center', gap: 10, marginVertical: 5, backgroundColor: colorScheme.background3, padding: 15, borderRadius: borderRad.small
+                            }}>
+                                <VerifiedShieldFilled color={colorScheme.primaryPurple} size={20}/>
+                                <View>
+                                    <Text style={{...uiText.Text}}>{data.name}</Text>
+                                    <Text style={{...uiText.Caption}}>{formatLargeNumber(data.members)} Members</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    })
+                    }
+                </View>
+            </View>
+
+            <View style={{marginVertical: 20,}}>
+                <View style={{...genStyles.flexRow, marginBottom: 20}}>
+                    <Text style={{...uiText.Text, marginRight: 10}}>Mutual Friends</Text>
+                    <Text style={{...uiText.Text, color: colorScheme.primaryPurple}}>See all</Text>
+                </View>
+                <View style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+                    {'123456'.split("").splice(0,5).map((data, i)=>{
+                        return(
+                            <View key={i}>
+                                <View style={{borderRadius:borderRad.circle, borderWidth: 3, borderColor: colorScheme.softPurple,overflow:'hidden'}}>
+                                    <Image source={require('../../../asset/images/DefaultPFP.png')}
+                                        style={{height: 50, width: 50}}
+                                    />
+                                </View>
+                                <View style={{position: 'absolute', backgroundColor: colorScheme.successGreen,
+                                    padding: 5, bottom: 4, right: 2, borderRadius: borderRad.circle, borderWidth: 1,
+                                    borderColor: 'white'
+                                    }} />
+                            </View>
+                        )
+                    })
+                    }
+                    <View>
+                        <View style={{
+                            borderRadius:borderRad.circle, borderWidth: 1, borderColor: colorScheme.primaryPurple,
+                            overflow:'hidden', height: 50, width: 50,
+                            justifyContent:'center', alignItems:'center'
+                            }}>
+                            <Text style={{...uiText.Text}}>+7</Text>
+                        </View>
+                    </View>
+                </View>
+                <Text style={{...uiText.Text, marginTop: 20}}>14 mutual friends</Text>
+            </View>
+
+            <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+                {["Posts","Market","Events"].map((tab,i)=>{
+                    const _tab = tab.toLowerCase()
+                    return(
+                        <TouchableOpacity key={i} style={{width:'33.3%', borderBottomWidth:1, borderBottomColor:`${contentTab===_tab ?colorScheme.primaryPurple:colorScheme.divider}`, padding:20 }}
+                        onPress={()=>setContentTab(_tab)}
+                        >
+                            <Text style={{...uiText.Text, color:`${contentTab===_tab ? colorScheme.primaryPurple: colorScheme.textSecondary}`, textAlign:'center'}}>{tab}</Text>
+                        </TouchableOpacity>
+                    )
+                })
+
+                }
+            </View>
+            <View style={{ marginBottom: 100,}}></View>
             </ScrollView>
         </View>
     )
@@ -151,7 +271,6 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: colorScheme.background,
-        // paddingTop: 20,
         padding: 20
     },
     header:{
@@ -166,7 +285,10 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
     },
-
+    sectionTitle: {
+        ...uiText.Text,
+        marginRight: 10,
+    },
     showCaseContainer: {
         display: 'flex',
         flexDirection: 'column',

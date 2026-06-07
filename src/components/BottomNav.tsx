@@ -1,4 +1,4 @@
-import { Pressable, View, StyleSheet, Image, Text } from "react-native"
+import { Pressable, View, StyleSheet, Image, Text, TouchableOpacity } from "react-native"
 import { Icon } from 'react-native-elements';
 import {colorPallete, colorScheme} from "../shared/constants/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -66,14 +66,14 @@ const BottomNav = ({changeScreen, activeScreen}: props)=>{
                     const isActive = activeScreen === nav.navTo;
                     const color = colorScheme[`${isActive ? 'primaryPurple' : 'textSecondary'}`]
                 return(
-                <Pressable style={styles.icon} key={nav.name} onPress={() => {
+                <TouchableOpacity style={styles.icon} key={nav.name} onPress={() => {
                     nav.action==='change-screen'?
                     changeScreen(nav.navTo):
                     navigation.navigate('Home', {screen: nav.navTo})
                 }}>
                     <NavIcon color={color} size={18} />
                     <Text style={{...uiText.Caption, fontSize: 9, color, paddingVertical: 8}}>{(nav.name)[0].toUpperCase() + (nav.name).slice(1)}</Text>
-                </Pressable>
+                </TouchableOpacity>
                 )})
 
                 }
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
         width: "100%",
         position: 'absolute',
         bottom: 0,
-        padding: 10
+        padding: 10,
+        backgroundColor: colorScheme.background
     },
     iconsContainer: {
         display: 'flex',

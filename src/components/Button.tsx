@@ -32,7 +32,7 @@ switch (color) {
             btnTxt = 'white'
         break;
     case 'secondary':
-            btnBg = colorScheme.button_bg2 
+            btnBg = colorScheme.button_bg2
             btnTxt = currentTheme === 'dark' ? colorScheme.softPurple : colorScheme.primaryPurple
         break;
     case 'tetiary':
@@ -58,7 +58,7 @@ switch (color) {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 5,
+                gap: 7,
             }}>
                 {icon && <Icon {...iconProps} />}
                 <Text
