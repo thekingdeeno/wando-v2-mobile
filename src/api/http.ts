@@ -31,6 +31,7 @@ class Http {
     initHttp() {
       const http = axios.create({
         baseURL: process.env.EXPO_PUBLIC_APP_BASE_URL, 
+        // baseURL: 'http://localhost:4000/v1',
       });
   
       http.interceptors.request.use(injectToken, (error) => Promise.reject(error));

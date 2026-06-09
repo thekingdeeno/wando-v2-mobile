@@ -1,3 +1,3 @@
-import { MMKV } from 'react-native-mmkv'
+import { createMMKV } from 'react-native-mmkv';
 
-export const localstorage = new MMKV()
+export const localstorage = createMMKV();

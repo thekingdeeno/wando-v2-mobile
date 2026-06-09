@@ -15,7 +15,7 @@ import { localstorage } from "../../shared/utils/localstorage";
 
 const HomeScreen = ()=>{
 
-    const [currentScreen, setCurrentScreen] = useState<string>('post-feed')
+    const [currentScreen, setCurrentScreen] = useState<string>('user-profile')
 
     const switchScreen = (screen: string) => setCurrentScreen(screen);
     
@@ -34,7 +34,8 @@ const HomeScreen = ()=>{
         if (!data) {
             delCurrentUser();
         };
-        data.avatar && Image.prefetch(data.avatar)
+
+        data?.avatar && Image.prefetch(data.avatar)
         .then(success => {
             if (success) {
                 localstorage.set('avatarUrl', data.avatar)

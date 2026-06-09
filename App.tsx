@@ -7,7 +7,7 @@ export default function App() {
   return (
         <SafeAreaProvider>
           {Platform.OS === 'android' && (
-            <StatusBar translucent backgroundColor="transparent" />
+            <StatusBar  />
           )}
             <Navigation />
         </SafeAreaProvider>

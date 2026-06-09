@@ -21,7 +21,7 @@ import genStyles from '../../../shared/constants/generic.styles';
 import Button from '../../../components/Button';
 import { borderRad } from '../../../shared/constants/ui-sizes';
 import { formatLargeNumber } from '../../../shared/utils/helper';
-
+import UserPost from '../../../components/UserPost';
 
 interface Props {
     updateStatus: ()=>void,
@@ -40,18 +40,238 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
     const hobbies = ['Football', 'Cooking', 'Traveling', 'Music', 'Photography', 'Gaming', 'Reading', 'Fitness']
     const bio = '3rd year Computer Science student. Looking for startup founders, hackathon teammates and people interested in Al.'
     const communities = [{
-        name:'Computer Science',
-        members: 24000
+            name:'Computer Science',
+            members: 24000
+        },
+        {
+            name:'Startup Builders',
+            members: 17000
+        },
+        {
+            name:'Campus Basketball',
+            members: 932
+        }
+    ]
+
+
+const samplePosts = [
+    {
+        username: 'olivia.codes',
+        affiliation: 'University of Oxford',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
+        imgUrl: 'https://picsum.photos/id/1025/800/600',
+        date: 1765000000,
+        caption: 'Built a tiny React Native utility today — shipping it to friends ✨',
+        likes: 98,
+        comments: 7,
+        shares: 2,
+        reposts: 0
     },
     {
-        name:'Startup Builders',
-        members: 17000
+        username: 'sam.dev',
+        affiliation: 'Imperial College London',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/45.jpg',
+        imgUrl: 'https://picsum.photos/id/1031/800/600',
+        date: 1772000000,
+        caption: 'Photos from the campus hackathon — what a weekend! 🧠🔥',
+        likes: 214,
+        comments: 28,
+        shares: 10,
+        reposts: 4
     },
     {
-        name:'Campus Basketball',
-        members: 932
-    }
-]
+        username: 'maya.art',
+        affiliation: 'Goldsmiths, University of London',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/68.jpg',
+        imgUrl: 'https://picsum.photos/id/1043/800/600',
+        date: 1768001234,
+        caption: 'Experimenting with generative art — feedback welcome 🎨',
+        likes: 64,
+        comments: 12,
+        shares: 1,
+        reposts: 0
+    },
+    {
+        username: 'leo.h',
+        affiliation: 'Birmingham City University',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/12.jpg',
+        imgUrl: 'https://picsum.photos/id/1052/800/600',
+        date: 1779000000,
+        caption: 'Weekly roundup: projects, notes, and links I found useful this week.',
+        likes: 42,
+        comments: 3,
+        shares: 0,
+        reposts: 0
+    },
+    {
+        username: 'nora_travels',
+        affiliation: 'University of Manchester',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/21.jpg',
+        imgUrl: 'https://picsum.photos/id/1067/800/600',
+        date: 1763004500,
+        caption: 'Weekend escape to the coast — recharged and ready to code 🌊',
+        likes: 131,
+        comments: 9,
+        shares: 4,
+        reposts: 2
+    },
+    {
+        username: 'dev_jamal',
+        affiliation: 'King\'s College London',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/52.jpg',
+        imgUrl: 'https://picsum.photos/id/1074/800/600',
+        date: 1770500000,
+        caption: 'Prototype demo: simple offline-first notes app. Pull requests welcome.',
+        likes: 201,
+        comments: 34,
+        shares: 14,
+        reposts: 5
+    },
+    {
+        username: 'emma_reads',
+        affiliation: 'University of Leeds',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/14.jpg',
+        imgUrl: 'https://picsum.photos/id/1084/800/600',
+        date: 1769500000,
+        caption: 'Late night reading list: compilers, systems, and UX design.',
+        likes: 55,
+        comments: 6,
+        shares: 1,
+        reposts: 0
+    },
+    {
+        username: 'ak47design',
+        affiliation: 'Central Saint Martins',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/73.jpg',
+        imgUrl: 'https://picsum.photos/id/1080/800/600',
+        date: 1767000000,
+        caption: 'New UI kit sketches — brutalist vibes this season.',
+        likes: 88,
+        comments: 10,
+        shares: 3,
+        reposts: 1
+    },
+    {
+        username: 'sophie_codes',
+        affiliation: 'University of Edinburgh',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/33.jpg',
+        imgUrl: 'https://picsum.photos/id/1005/800/600',
+        date: 1774500000,
+        caption: 'Debugging session victory: finally found that race condition 💪',
+        likes: 150,
+        comments: 21,
+        shares: 5,
+        reposts: 2
+    },
+    {
+        username: 'mike_bball',
+        affiliation: 'Campus Basketball',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/4.jpg',
+        imgUrl: 'https://picsum.photos/id/1003/800/600',
+        date: 1762000000,
+        caption: 'Open gym tonight — who\'s joining? 🏀',
+        likes: 76,
+        comments: 8,
+        shares: 2,
+        reposts: 0
+    },
+    {
+        username: 'tina_photos',
+        affiliation: 'Royal College of Art',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/55.jpg',
+        imgUrl: 'https://picsum.photos/id/1011/800/600',
+        date: 1777000000,
+        caption: 'Street photography walk — captured some great frames.',
+        likes: 120,
+        comments: 15,
+        shares: 6,
+        reposts: 2
+    },
+    {
+        username: 'omar_startup',
+        affiliation: 'Startup Builders',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/22.jpg',
+        imgUrl: 'https://picsum.photos/id/1020/800/600',
+        date: 1766000000,
+        caption: 'MVP shipped: looking for early testers and feedback.',
+        likes: 320,
+        comments: 58,
+        shares: 22,
+        reposts: 9
+    },
+    {
+        username: 'claire_music',
+        affiliation: 'Birmingham School of Music',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/29.jpg',
+        imgUrl: 'https://picsum.photos/id/1029/800/600',
+        date: 1769005555,
+        caption: 'Recording session highlights from last night 🎶',
+        likes: 95,
+        comments: 12,
+        shares: 3,
+        reposts: 1
+    },
+    {
+        username: 'ryan_ai',
+        affiliation: 'Cambridge University',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/66.jpg',
+        imgUrl: 'https://picsum.photos/id/1035/800/600',
+        date: 1773001111,
+        caption: 'Playing with transformers for text summarization — neat results.',
+        likes: 410,
+        comments: 67,
+        shares: 30,
+        reposts: 12
+    },
+    {
+        username: 'zara_fit',
+        affiliation: 'Sports Club',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/5.jpg',
+        imgUrl: 'https://picsum.photos/id/1049/800/600',
+        date: 1764009999,
+        caption: 'Morning run and coffee — perfect start to the day ☕️',
+        likes: 60,
+        comments: 4,
+        shares: 1,
+        reposts: 0
+    },
+    {
+        username: 'jonah_reads',
+        affiliation: 'Lancaster University',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/15.jpg',
+        imgUrl: 'https://picsum.photos/id/1060/800/600',
+        date: 1776003333,
+        caption: 'Book recommendation: Systems Thinking for Engineers.',
+        likes: 44,
+        comments: 2,
+        shares: 0,
+        reposts: 0
+    },
+    {
+        username: 'ivy_design',
+        affiliation: 'University of the Arts',
+        pfpUrl: 'https://randomuser.me/api/portraits/women/12.jpg',
+        imgUrl: 'https://picsum.photos/id/1070/800/600',
+        date: 1768502222,
+        caption: 'Moodboard for the next semester project — pastel palette.',
+        likes: 78,
+        comments: 9,
+        shares: 2,
+        reposts: 0
+    },
+    {
+        username: 'eli_codes',
+        affiliation: 'Sheffield Hallam University',
+        pfpUrl: 'https://randomuser.me/api/portraits/men/8.jpg',
+        imgUrl: 'https://picsum.photos/id/1088/800/600',
+        date: 1771007777,
+        caption: 'Pair-programming session produced this tiny utility — open source!',
+        likes: 187,
+        comments: 26,
+        shares: 8,
+        reposts: 3
+    },
+];
 
     useFocusEffect(
     React.useCallback(() => {
@@ -262,6 +482,22 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
 
                 }
             </View>
+            {contentTab === 'posts' &&
+                <ScrollView style={{marginVertical: 20}}>
+                    {samplePosts.map((post, i)=>{
+                        return (
+                            <View style={{marginVertical: 15}} key={i}>
+                                <UserPost postData={post} />
+                            </View>
+                        )
+                    })
+
+                    }
+                </ScrollView>
+            }
+            <View>
+
+            </View>
             <View style={{ marginBottom: 100,}}></View>
             </ScrollView>
         </View>
@@ -271,13 +507,14 @@ const ProfilePage = ({updateStatus, visibility}: Props)=>{
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: colorScheme.background,
-        padding: 20
+        padding: 10
     },
     header:{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginBottom: 15
         // paddingHorizontal: 23,
     },
     headerIcons: {
