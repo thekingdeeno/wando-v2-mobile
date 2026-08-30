@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {colorPallete, colorScheme, currentTheme} from "../../shared/constants/colors";
 import BottomNav from "../../components/BottomNav";
 import React, { Fragment, useEffect, useState } from "react";
-import CreatePost from "../create-post/CreatePost";
+// import CreatePost from "../create-post/CreatePost";
 import PostFeed from "./screens/PostFeed";
 import ProfilePage from "./screens/ProfilePage";
 import DiscoveryPage from "./screens/DiscoveryPage";

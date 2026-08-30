@@ -16,7 +16,7 @@ import VerifiedShieldIcon from '../../../asset/svg/VerifiedShield';
 import LocationPinIcon from '../../../asset/svg/LocationPin';
 import VerifiedShieldFilled from '../../../asset/svg/VerifiedShieldFill';
 import EditIcon from '../../../asset/svg/EditIcon';
-import UploadIcon from '../../../asset/svg/UplaodIcon';
+import UploadIcon from '../../../asset/svg/UploadIcon';
 import genStyles from '../../../shared/constants/generic.styles';
 import Button from '../../../components/Button';
 import { borderRad } from '../../../shared/constants/ui-sizes';
